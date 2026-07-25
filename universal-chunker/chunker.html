@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Document Chunker — prepare documents for RAG</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#F7F8F7; --surface:#FFFFFF; --ink:#16232C; --muted:#566068;
+    --faint:#8A959B; --line:#E5E8E7; --accent:#0E7C74; --accent-ink:#0A5A54;
+    --warn:#8a5a00; --warn-bg:#fdf6e7;
+    --mono:'JetBrains Mono',ui-monospace,monospace;
+    --sans:'Inter',system-ui,sans-serif;
+    --display:'Space Grotesk',system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.6;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1000px;margin:0 auto;padding:0 24px}
+  header{border-bottom:1px solid var(--line);background:var(--surface)}
+  .hrow{padding:26px 0 22px}
+  h1{font-family:var(--display);font-weight:700;font-size:clamp(22px,3.4vw,30px);letter-spacing:-.02em}
+  .sub{color:var(--muted);font-size:15px;margin-top:6px;max-width:70ch}
+  .privacy{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:12px;color:var(--accent-ink);
+    background:rgba(14,124,116,.08);border:1px solid rgba(14,124,116,.2);padding:5px 11px;border-radius:999px;margin-top:14px}
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--accent);display:inline-block}
+
+  main{padding:28px 0 70px}
+  #drop{background:var(--surface);border:2px dashed var(--line);border-radius:16px;padding:46px 24px;text-align:center;transition:.15s;cursor:pointer}
+  #drop:hover,#drop.over{border-color:var(--accent);background:#fbfdfc}
+  #drop h2{font-family:var(--display);font-weight:600;font-size:19px;margin-bottom:6px}
+  #drop p{color:var(--muted);font-size:14px}
+  #drop .types{font-family:var(--mono);font-size:12px;color:var(--faint);margin-top:12px}
+
+  .controls{display:flex;gap:22px;flex-wrap:wrap;align-items:flex-end;margin-top:22px;background:var(--surface);
+    border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+  .ctl label{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);margin-bottom:5px}
+  .ctl input{font-family:var(--sans);font-size:15px;padding:7px 10px;border:1px solid var(--line);border-radius:8px;width:110px;background:var(--bg);color:var(--ink)}
+  .hint{font-size:12.5px;color:var(--muted);flex:1;min-width:220px}
+
+  .btn{font-family:var(--sans);font-weight:500;font-size:14.5px;padding:9px 18px;border-radius:9px;border:1px solid var(--ink);
+    background:var(--ink);color:var(--bg);cursor:pointer;transition:.15s}
+  .btn:hover{background:var(--accent-ink);border-color:var(--accent-ink)}
+  .btn.ghost{background:transparent;color:var(--ink)}
+  .btn.ghost:hover{background:var(--surface);color:var(--accent-ink)}
+  .btn:disabled{opacity:.45;cursor:not-allowed}
+
+  .panel{margin-top:26px;background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .phead{padding:14px 18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+  .phead h3{font-family:var(--display);font-weight:600;font-size:16px}
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  th{text-align:left;font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--faint);
+    padding:10px 14px;border-bottom:1px solid var(--line);white-space:nowrap}
+  td{padding:10px 14px;border-bottom:1px solid var(--line);color:var(--muted);vertical-align:top}
+  td.f{color:var(--ink);font-weight:500;word-break:break-word}
+  .tag{display:inline-block;font-family:var(--mono);font-size:11px;color:var(--accent-ink);border:1px solid var(--line);
+    background:var(--bg);padding:2px 8px;border-radius:6px;white-space:nowrap}
+  .tag.warn{color:var(--warn);background:var(--warn-bg);border-color:#f0e0b8}
+  tr:last-child td{border-bottom:none}
+  .num{font-family:var(--mono);font-size:13px;color:var(--ink)}
+
+  .preview{max-height:420px;overflow:auto;padding:4px 0}
+  .chunk{padding:13px 18px;border-bottom:1px solid var(--line)}
+  .chunk:last-child{border-bottom:none}
+  .chunk .meta{font-family:var(--mono);font-size:11.5px;color:var(--accent-ink);margin-bottom:5px}
+  .chunk .body{font-size:13.5px;color:var(--muted);white-space:pre-wrap;word-break:break-word}
+  .empty{padding:26px 18px;color:var(--faint);font-size:14px;text-align:center}
+  .note{margin-top:22px;font-size:13px;color:var(--muted);background:var(--surface);border:1px solid var(--line);
+    border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:13px 16px}
+  .note b{color:var(--ink);font-weight:600}
+  #status{font-family:var(--mono);font-size:12.5px;color:var(--muted)}
+  footer{border-top:1px solid var(--line);padding:22px 0 40px;font-size:12.5px;color:var(--faint);font-family:var(--mono)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap hrow">
+    <h1>Document Chunker</h1>
+    <p class="sub">Splits documents into retrieval-ready chunks for a RAG pipeline — at real structural boundaries, never mid-sentence. Drop files in, inspect the result, download as JSONL.</p>
+    <span class="privacy"><span class="dot"></span> Runs entirely in your browser — nothing is uploaded</span>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div id="drop">
+    <h2>Drop documents here</h2>
+    <p>or click to choose files</p>
+    <p class="types">PDF &middot; DOCX &middot; TXT &middot; MD &middot; CSV</p>
+    <input type="file" id="picker" multiple accept=".pdf,.docx,.txt,.md,.markdown,.csv" hidden />
+  </div>
+
+  <div class="controls">
+    <div class="ctl">
+      <label for="maxw">Max words</label>
+      <input type="number" id="maxw" value="400" min="50" max="3000" step="50" />
+    </div>
+    <div class="ctl">
+      <label for="ovl">Overlap</label>
+      <input type="number" id="ovl" value="0" min="0" max="200" step="10" />
+    </div>
+    <p class="hint">Overlap carries a few words between chunks. Useful for flowing prose; keep it at <b>0</b> for legal or structured text, where sections are self-contained and overlap just duplicates the law.</p>
+    <button class="btn" id="dl" disabled>Download JSONL</button>
+    <button class="btn ghost" id="clr" disabled>Clear</button>
+  </div>
+
+  <div class="panel">
+    <div class="phead">
+      <h3>Files</h3>
+      <span id="status">No files yet</span>
+    </div>
+    <div id="filesWrap">
+      <div class="empty">Drop a document above to begin.</div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="phead">
+      <h3>Chunk preview</h3>
+      <span id="pstatus"></span>
+    </div>
+    <div class="preview" id="preview">
+      <div class="empty">Chunks will appear here.</div>
+    </div>
+  </div>
+
+  <div class="note">
+    <b>How to read the results.</b> The <i>strategy</i> column shows how the document was
+    understood. <span class="tag">markdown-headings</span> and
+    <span class="tag">numbered-sections</span> mean real structure was found and used.
+    <span class="tag">none-plain-prose</span> means none was found, so it fell back to
+    splitting on paragraphs and whole sentences — still safe, just less precise.
+    <span class="tag warn">needs OCR</span> means the PDF is a scan with no text layer;
+    run OCR on it first rather than trusting anything extracted.
+  </div>
+
+</main>
+
+<footer class="wrap">
+  Local processing only &middot; no upload, no API keys &middot; built by Sairam Reddy
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+<script>
+if (window.pdfjsLib) {
+  pdfjsLib.GlobalWorkerOptions.workerSrc =
+    'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+}
+
+/* ============================================================
+   Chunking logic — a direct port of universal_chunker.py
+   ============================================================ */
+
+const MD_HEADING   = /^(#{1,6})\s+(.*\S)\s*$/;
+const NUM_SECTION  = /^\s*(\d{1,3}(?:\.\d{1,3})*)\s*[.)]\s+(\S.*)$/;
+// case-sensitive on purpose: a lowercase "section 12" mid-sentence is a
+// cross-reference, not a heading. Matching those shreds the document.
+const LEGAL_SECTION= /^(?:Section|Clause|Rule|Article|Schedule|Para(?:graph)?)\s+(\d{1,4}[A-Za-z-]*)\b\s*[.:–-]?\s*(.{0,110})$/;
+const CAPS_HEADING = /^[A-Z][A-Z0-9 ,'&()./-]{4,80}$/;
+const PAGE_NUM     = /^\s*(page\s+)?\d{1,4}(\s*\/\s*\d{1,4}|\s+of\s+\d{1,4})?\s*$/i;
+const SENT_SPLIT   = /(?<=[.!?;:])\s+/;
+
+const wc = s => (s.trim() ? s.trim().split(/\s+/).length : 0);
+
+/* -- cleaning: strip page furniture that repeats across pages -- */
+function clean(text){
+  text = text.replace(/\f/g,'\n');
+  const lines = text.split('\n');
+  const counts = new Map();
+  for (const ln of lines){
+    const s = ln.trim();
+    if (s.length>0 && s.length<=90) counts.set(s,(counts.get(s)||0)+1);
+  }
+  const furniture = new Set();
+  for (const [s,c] of counts)
+    if (c>=4 && !/^\(?[0-9a-zA-Z]{1,4}[.)]\s+\w/.test(s)) furniture.add(s);
+  const kept = lines.filter(ln => !furniture.has(ln.trim()) && !PAGE_NUM.test(ln));
+  return [kept.join('\n').replace(/\n{3,}/g,'\n\n'), furniture.size];
+}
+
+/* -- structure detection, scored rather than first-match -- */
+function blocksFrom(lines, matcher){
+  const idx = [];
+  lines.forEach((ln,i)=>{ const r = matcher(ln); if(r) idx.push([i,r[0],r[1]]); });
+  if (idx.length < 2) return null;
+  const out = [];
+  if (idx[0][0] > 0) out.push({heading:null, level:0, lines:lines.slice(0,idx[0][0])});
+  idx.forEach((it,k)=>{
+    const end = k+1 < idx.length ? idx[k+1][0] : lines.length;
+    out.push({heading:it[1], level:it[2], lines:lines.slice(it[0], end)});
+  });
+  return out;
+}
+
+function scoreStructure(blocks){
+  const heads = blocks.filter(b=>b.heading).map(b=>b.heading);
+  if (heads.length < 2) return 0;
+  // Over-matching: the same heading forty times means we're catching
+  // cross-references inside sentences. Real headings are mostly unique.
+  const uniqueness = new Set(heads).size / heads.length;
+  const sizes = blocks.map(b=>wc(b.lines.join(' '))).sort((a,b)=>a-b);
+  const median = sizes[Math.floor(sizes.length/2)];
+  // Under-matching: 6 headings across 400 pages isn't structure either.
+  let fit;
+  if (median < 25) fit = median/25;
+  else if (median <= 1200) fit = 1;
+  else fit = Math.max(0.1, 1200/median);
+  return uniqueness * fit;
+}
+
+function detectStructure(text){
+  const lines = text.split('\n');
+  const cands = [];
+
+  let b = blocksFrom(lines, ln => { const m = MD_HEADING.exec(ln); return m ? [m[2], m[1].length] : null; });
+  if (b) return [b, 'markdown-headings'];          // unambiguous, trust outright
+
+  b = blocksFrom(lines, ln => {
+    const m = LEGAL_SECTION.exec(ln.trim());
+    if (!m) return null;
+    const tail = (m[2]||'').trim();
+    if (/(,|;|\b(and|or|of|the|in))$/.test(tail)) return null;  // trails off mid-clause
+    return [m[0].trim().slice(0,120), 1];
+  });
+  if (b && b.length >= 3) cands.push([scoreStructure(b), b, 'legal-headings']);
+
+  b = blocksFrom(lines, ln => {
+    const m = NUM_SECTION.exec(ln);
+    if (!m || m[2].length >= 150) return null;
+    return [(m[1]+'. '+m[2]).slice(0,120), (m[1].split('.').length)];
+  });
+  if (b && b.length >= 3) cands.push([scoreStructure(b), b, 'numbered-sections']);
+
+  b = blocksFrom(lines, ln => { const s = ln.trim(); return CAPS_HEADING.test(s) ? [s,1] : null; });
+  if (b && b.length >= 3) cands.push([scoreStructure(b), b, 'caps-headings']);
+
+  if (cands.length){
+    cands.sort((x,y)=>y[0]-x[0]);
+    if (cands[0][0] >= 0.5) return [cands[0][1], cands[0][2]];
+  }
+  return [[{heading:null, level:0, lines}], 'none-plain-prose'];
+}
+
+/* -- splitting: structure -> paragraphs -> whole sentences -- */
+function paragraphs(lines){
+  const out=[]; let cur=[];
+  for (const ln of lines){
+    if (ln.trim()) cur.push(ln);
+    else if (cur.length){ out.push(cur); cur=[]; }
+  }
+  if (cur.length) out.push(cur);
+  return out.length ? out : [lines];
+}
+function pack(units, max){
+  const parts=[]; let cur=[], n=0;
+  for (const u of units){
+    const w = wc(u.join(' '));
+    if (cur.length && n+w > max){ parts.push(cur); cur=[...u]; n=w; }
+    else { cur.push(...u); n+=w; }
+  }
+  if (cur.length) parts.push(cur);
+  return parts;
+}
+function bySentence(text, max){
+  const out=[]; let cur=[], n=0;
+  for (const s of text.split(SENT_SPLIT)){
+    const w = wc(s);
+    if (cur.length && n+w > max){ out.push(cur.join(' ')); cur=[s]; n=w; }
+    else { cur.push(s); n+=w; }
+  }
+  if (cur.length) out.push(cur.join(' '));
+  return out;
+}
+function chunkBlock(block, max){
+  const body = block.lines.join('\n').trim();
+  if (!body) return [];
+  if (wc(body) <= max) return [body];
+  const out=[];
+  for (const p of pack(paragraphs(block.lines), max)){
+    const t = p.join('\n').trim();
+    if (wc(t) <= max) out.push(t); else out.push(...bySentence(t, max));
+  }
+  return out.filter(x=>x.trim());
+}
+function addOverlap(chunks, n){
+  if (n<=0 || chunks.length<2) return chunks;
+  const out=[chunks[0]];
+  for (let i=1;i<chunks.length;i++){
+    const tail = chunks[i-1].trim().split(/\s+/).slice(-n).join(' ');
+    out.push('[...continued] '+tail+'\n'+chunks[i]);
+  }
+  return out;
+}
+
+/* -- text extraction -- */
+async function extractPDF(file){
+  const buf = await file.arrayBuffer();
+  const pdf = await pdfjsLib.getDocument({data:buf}).promise;
+  let text='';
+  for (let i=1;i<=pdf.numPages;i++){
+    const page = await pdf.getPage(i);
+    const c = await page.getTextContent();
+    let last=null, line='';
+    for (const it of c.items){
+      if (last!==null && Math.abs(it.transform[5]-last) > 2){ text += line.trim()+'\n'; line=''; }
+      line += it.str + (it.hasEOL ? '' : ' ');
+      last = it.transform[5];
+    }
+    text += line.trim()+'\n';
+  }
+  return [text, pdf.numPages];
+}
+async function extractDOCX(file){
+  const buf = await file.arrayBuffer();
+  const r = await mammoth.extractRawText({arrayBuffer:buf});
+  return [r.value, 0];
+}
+async function extractText(file){
+  const ext = file.name.toLowerCase().split('.').pop();
+  if (ext==='pdf')  return extractPDF(file);
+  if (ext==='docx') return extractDOCX(file);
+  return [await file.text(), 0];
+}
+
+/* -- driver -- */
+async function processFile(file, max, ovl){
+  let raw, pages;
+  try { [raw,pages] = await extractText(file); }
+  catch(e){ return {file:file.name, status:'ERROR: '+e.message, chunks:[], strategy:null, pages:0}; }
+
+  // a text PDF gives plenty of words per page; a scan gives almost none
+  if (pages>0 && wc(raw)/pages < 20)
+    return {file:file.name, status:'needs OCR', chunks:[], strategy:null, pages};
+
+  const [text, furniture] = clean(raw);
+  const [blocks, strategy] = detectStructure(text);
+
+  const chunks=[];
+  for (const blk of blocks){
+    let pieces = chunkBlock(blk, max);
+    if (ovl && strategy==='none-plain-prose') pieces = addOverlap(pieces, ovl);
+    pieces.forEach((piece,j)=>{
+      let header = '['+file.name+']';
+      if (blk.heading) header += ' '+blk.heading;
+      if (pieces.length>1) header += ' (part '+(j+1)+' of '+pieces.length+')';
+      const body = header+'\n'+piece;
+      chunks.push({
+        id: file.name.replace(/\.[^.]+$/,'')+'-'+String(chunks.length+1).padStart(5,'0'),
+        file:file.name, heading:blk.heading, level:blk.level,
+        part:j+1, of_parts:pieces.length, words:wc(body), text:body
+      });
+    });
+  }
+  const sizes = chunks.map(c=>c.words).sort((a,b)=>a-b);
+  return {file:file.name, status:'ok', pages, strategy, furniture,
+          chunks, median: sizes[Math.floor(sizes.length/2)]||0, max: sizes[sizes.length-1]||0};
+}
+
+/* ---------------- UI ---------------- */
+const drop=document.getElementById('drop'), picker=document.getElementById('picker');
+const filesWrap=document.getElementById('filesWrap'), preview=document.getElementById('preview');
+const statusEl=document.getElementById('status'), pstatus=document.getElementById('pstatus');
+const dlBtn=document.getElementById('dl'), clrBtn=document.getElementById('clr');
+let results=[];
+
+drop.addEventListener('click', ()=>picker.click());
+picker.addEventListener('change', e=>handle([...e.target.files]));
+['dragenter','dragover'].forEach(ev=>drop.addEventListener(ev, e=>{e.preventDefault();drop.classList.add('over');}));
+['dragleave','drop'].forEach(ev=>drop.addEventListener(ev, e=>{e.preventDefault();drop.classList.remove('over');}));
+drop.addEventListener('drop', e=>handle([...e.dataTransfer.files]));
+
+async function handle(files){
+  if (!files.length) return;
+  const max=+document.getElementById('maxw').value || 400;
+  const ovl=+document.getElementById('ovl').value || 0;
+  statusEl.textContent='Working…';
+  for (const f of files){
+    statusEl.textContent='Reading '+f.name+'…';
+    results.push(await processFile(f, max, ovl));
+    render();
+  }
+  const total=results.reduce((a,r)=>a+r.chunks.length,0);
+  statusEl.textContent=results.length+' file(s) · '+total+' chunks';
+  dlBtn.disabled = total===0; clrBtn.disabled=false;
+}
+
+function esc(s){ return (s||'').replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
+
+function render(){
+  if (!results.length){ filesWrap.innerHTML='<div class="empty">Drop a document above to begin.</div>'; return; }
+  let h='<table><thead><tr><th>File</th><th>Strategy</th><th>Pages</th><th>Chunks</th><th>Median</th><th>Max</th></tr></thead><tbody>';
+  for (const r of results){
+    if (r.status!=='ok'){
+      const cls = r.status==='needs OCR' ? 'tag warn' : 'tag warn';
+      h+='<tr><td class="f">'+esc(r.file)+'</td><td colspan="5"><span class="'+cls+'">'+esc(r.status)+'</span></td></tr>';
+    } else {
+      h+='<tr><td class="f">'+esc(r.file)+'</td><td><span class="tag">'+r.strategy+'</span></td>'
+       +'<td class="num">'+(r.pages||'—')+'</td><td class="num">'+r.chunks.length+'</td>'
+       +'<td class="num">'+r.median+'</td><td class="num">'+r.max+'</td></tr>';
+    }
+  }
+  filesWrap.innerHTML=h+'</tbody></table>';
+
+  const all=results.flatMap(r=>r.chunks);
+  if (!all.length){ preview.innerHTML='<div class="empty">No chunks produced.</div>'; pstatus.textContent=''; return; }
+  pstatus.textContent='showing first 30 of '+all.length;
+  preview.innerHTML=all.slice(0,30).map(c=>
+    '<div class="chunk"><div class="meta">'+esc(c.id)+' · '+c.words+' words</div>'
+    +'<div class="body">'+esc(c.text.slice(0,600))+(c.text.length>600?' …':'')+'</div></div>').join('');
+}
+
+dlBtn.addEventListener('click', ()=>{
+  const all=results.flatMap(r=>r.chunks);
+  const blob=new Blob([all.map(c=>JSON.stringify(c)).join('\n')],{type:'application/jsonl'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob); a.download='chunks.jsonl'; a.click();
+  URL.revokeObjectURL(a.href);
+});
+clrBtn.addEventListener('click', ()=>{
+  results=[]; render(); preview.innerHTML='<div class="empty">Chunks will appear here.</div>';
+  statusEl.textContent='No files yet'; pstatus.textContent='';
+  dlBtn.disabled=true; clrBtn.disabled=true; picker.value='';
+});
+</script>
+</body>
+</html>

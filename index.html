@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sairam Reddy — Finance &amp; AI Automation</title>
+<meta name="description" content="AI-first accountant building document-AI and automation for GST, TDS, reconciliation and reporting. RAG over the Income-tax Act, local-first tooling." />
+<meta name="author" content="Sairam Reddy" />
+<link rel="canonical" href="https://abaasairam-ai.github.io/" />
+
+<!-- shows a proper card when the link is shared on LinkedIn / WhatsApp -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://abaasairam-ai.github.io/" />
+<meta property="og:title" content="Sairam Reddy — Finance professional who automates the work" />
+<meta property="og:description" content="AI-first accountant. RAG over the complete Income-tax Act 2025, document chunking tools, GST/TDS automation — built local-first so client data never leaves the machine." />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="Sairam Reddy — Finance &amp; AI Automation" />
+<meta name="twitter:description" content="AI-first accountant building document-AI and automation for GST, TDS and reconciliation." />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230E7C74'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='19' font-weight='bold' fill='%23F7F8F7' text-anchor='middle'%3ES%3C/text%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#F7F8F7; --surface:#FFFFFF; --ink:#16232C; --muted:#566068;
+    --faint:#8A959B; --line:#E5E8E7; --accent:#0E7C74; --accent-ink:#0A5A54;
+    --mono:'JetBrains Mono',ui-monospace,monospace;
+    --sans:'Inter',system-ui,sans-serif;
+    --display:'Space Grotesk',system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.6;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:920px;margin:0 auto;padding:0 28px}
+  a{color:inherit;text-decoration:none}
+
+  /* eyebrow labels */
+  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-ink)}
+
+  /* header */
+  header{border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(247,248,247,.85);backdrop-filter:blur(8px);z-index:10}
+  .hrow{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .brand{font-family:var(--display);font-weight:700;font-size:17px;letter-spacing:-.01em}
+  nav a{font-size:14px;color:var(--muted);margin-left:26px;transition:color .15s}
+  nav a:hover{color:var(--ink)}
+  @media(max-width:600px){nav{display:none}}
+
+  /* hero */
+  .hero{padding:88px 0 72px}
+  .pill{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:12.5px;color:var(--accent-ink);background:rgba(14,124,116,.08);border:1px solid rgba(14,124,116,.2);padding:6px 12px;border-radius:999px;margin-bottom:28px}
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--accent);display:inline-block}
+  h1{font-family:var(--display);font-weight:700;font-size:clamp(34px,5.5vw,52px);line-height:1.08;letter-spacing:-.02em;max-width:16ch}
+  .hero p.lede{margin-top:22px;font-size:clamp(16px,2.2vw,19px);color:var(--muted);max-width:56ch}
+  .cta{margin-top:36px;display:flex;gap:14px;flex-wrap:wrap}
+  .btn{font-family:var(--sans);font-weight:500;font-size:15px;padding:11px 20px;border-radius:9px;border:1px solid var(--ink);transition:all .15s}
+  .btn.primary{background:var(--ink);color:var(--bg)}
+  .btn.primary:hover{background:var(--accent-ink);border-color:var(--accent-ink)}
+  .btn.ghost:hover{background:var(--surface)}
+
+  /* section */
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  .shead{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:36px;flex-wrap:wrap;gap:8px}
+  h2{font-family:var(--display);font-weight:600;font-size:clamp(22px,3vw,28px);letter-spacing:-.01em}
+
+  /* work cards */
+  .cards{display:grid;gap:16px}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:24px;transition:border-color .15s,transform .15s}
+  .card:hover{border-color:var(--accent);transform:translateY(-2px)}
+  .card .top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
+  .card h3{font-family:var(--display);font-weight:600;font-size:18px}
+  .card .status{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--faint);white-space:nowrap;padding-top:3px}
+  .card p{color:var(--muted);font-size:14.5px;margin-top:8px;max-width:60ch}
+  .tools{margin-top:16px;display:flex;flex-wrap:wrap;gap:7px}
+  .tag{font-family:var(--mono);font-size:11.5px;color:var(--accent-ink);border:1px solid var(--line);background:var(--bg);padding:3px 9px;border-radius:6px}
+  .card .link{margin-top:18px;display:inline-block;font-size:14px;font-weight:500;color:var(--accent-ink)}
+  .card .link:hover{text-decoration:underline}
+
+  /* capabilities */
+  .caps{display:grid;grid-template-columns:1fr 1fr;gap:40px}
+  @media(max-width:600px){.caps{grid-template-columns:1fr;gap:28px}}
+  .caps h4{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin-bottom:14px}
+  .caps ul{list-style:none}
+  .caps li{padding:9px 0;border-bottom:1px solid var(--line);font-size:15px;color:var(--ink);display:flex;gap:10px;align-items:baseline}
+  .caps li::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--accent);flex:none;transform:translateY(-2px)}
+
+  /* about */
+  .about p{font-size:16.5px;color:var(--muted);max-width:64ch;margin-bottom:16px}
+  .about strong{color:var(--ink);font-weight:500}
+
+  /* footer */
+  footer{border-top:1px solid var(--line);padding:48px 0 60px}
+  .flinks{display:flex;gap:24px;flex-wrap:wrap;margin-top:14px}
+  .flinks a{font-size:15px;color:var(--muted);border-bottom:1px solid transparent;transition:.15s}
+  .flinks a:hover{color:var(--accent-ink);border-color:var(--accent)}
+  .fnote{font-family:var(--mono);font-size:12px;color:var(--faint);margin-top:28px}
+
+  a:focus-visible,.btn:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+  .reveal{opacity:0;transform:translateY(12px);animation:rise .7s ease forwards}
+  @keyframes rise{to{opacity:1;transform:none}}
+  @media(prefers-reduced-motion:reduce){.reveal{animation:none;opacity:1;transform:none}.card:hover{transform:none}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap hrow">
+    <div class="brand">Sairam<span style="color:var(--accent)">.</span></div>
+    <nav>
+      <a href="#work">Work</a>
+      <a href="#capabilities">Capabilities</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="hero" style="border-top:none">
+    <div class="reveal">
+      <span class="pill"><span class="dot"></span> Open to remote finance roles</span>
+      <h1>Finance professional who automates the work.</h1>
+      <p class="lede">AI-first accountant with 5+ years across full-cycle accounting, payroll, GST/TDS and audits — pairing that depth with hands-on AI engineering to cut close cycles, eliminate manual rework and sharpen management reporting.</p>
+      <div class="cta">
+        <a class="btn primary" href="https://github.com/abaasairam-ai" target="_blank" rel="noopener">View work on GitHub</a>
+        <a class="btn ghost" href="mailto:sairamr62@gmail.com">Get in touch</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="work">
+    <div class="shead">
+      <h2>Selected work</h2>
+      <span class="eyebrow">Finance tools I've built</span>
+    </div>
+    <div class="cards">
+
+      <div class="card">
+        <div class="top">
+          <h3>GSTR-1 JSON Generator</h3>
+          <span class="status">Live</span>
+        </div>
+        <p>Converts marketplace TCS Excel exports into GST-portal-ready GSTR-1 JSON — turning a manual re-keying task into a one-click conversion.</p>
+        <div class="tools"><span class="tag">JavaScript</span><span class="tag">SheetJS</span><span class="tag">Claude Code</span></div>
+        <a class="link" href="https://github.com/abaasairam-ai/gstr1-json-generator" target="_blank" rel="noopener">View on GitHub &rarr;</a>
+      </div>
+
+      <div class="card">
+        <div class="top">
+          <h3>TDS Reconciliation</h3>
+          <span class="status">Live</span>
+        </div>
+        <p>Matches the TDS ledger against Form 26AS, groups by deductor, flags mismatches with a tolerance, and exports a clean reconciliation to Excel. Runs entirely in-browser — no data leaves the device.</p>
+        <div class="tools"><span class="tag">React</span><span class="tag">SheetJS</span><span class="tag">Local-only</span></div>
+        <a class="link" href="https://github.com/abaasairam-ai/tds-reconciliation" target="_blank" rel="noopener">View on GitHub &rarr;</a>
+      </div>
+
+      <!-- HIDDEN until described — uncomment when ready
+      <div class="card">
+        <div class="top">
+          <h3>Revenue Recognition Tool</h3>
+          <span class="status">Live</span>
+        </div>
+        <p>[EDIT: one line — e.g. "Automates revenue recognition schedules across subscription contracts, producing period-by-period recognized and deferred balances."]</p>
+        <div class="tools"><span class="tag">[EDIT]</span><span class="tag">[EDIT]</span></div>
+        <a class="link" href="https://github.com/abaasairam-ai/revenue-recognition" target="_blank" rel="noopener">View on GitHub &rarr;</a>
+      </div>
+      -->
+
+      <!-- HIDDEN until described — uncomment when ready
+      <div class="card">
+        <div class="top">
+          <h3>Subscription Management</h3>
+          <span class="status">In progress</span>
+        </div>
+        <p>[EDIT: one line — e.g. "Tracks subscription billing cycles, renewals and churn, feeding clean data into revenue recognition."]</p>
+        <div class="tools"><span class="tag">[EDIT]</span><span class="tag">[EDIT]</span></div>
+        <a class="link" href="https://github.com/abaasairam-ai/subscription-management" target="_blank" rel="noopener">View on GitHub &rarr;</a>
+      </div>
+      -->
+
+      <div class="card">
+        <div class="top">
+          <h3>Private Tax Knowledge Assistant</h3>
+          <span class="status">In progress</span>
+        </div>
+        <p>A retrieval system over the <strong>complete Income-tax Act, 2025 and Income-tax Rules, 2026</strong> — 1,088 pages of primary law, parsed and split into 1,505 citation-tagged chunks with 100% section coverage, verified against the official numbering.</p>
+        <p style="margin-top:10px">Parsing an Act turns out to be the hard part. The source PDF fights you: sections formatted as <code>443.9[***]</code> or <code>94 . (1)</code>, slab tables whose rows look exactly like section starts, and footnotes numbered 1–99 that hijack the sequence entirely. Pattern-matching alone found 868 "sections" where there are 536. The fix was to require three things at once — the number continues the sequence, it sits near the previous section, and a real heading precedes it.</p>
+        <p style="margin-top:10px">Designed to run <strong>fully local</strong> — documents, embeddings and model all on-machine — so confidential client data never leaves the device.</p>
+        <div class="tools"><span class="tag">Python</span><span class="tag">RAG</span><span class="tag">Chroma</span><span class="tag">Ollama</span><span class="tag">Local-only</span></div>
+        <a class="link" href="https://github.com/abaasairam-ai/income-tax-rag" target="_blank" rel="noopener">View on GitHub &rarr;</a>
+      </div>
+
+      <div class="card">
+        <div class="top">
+          <h3>Universal Document Chunker</h3>
+          <span class="status">Live &middot; try it</span>
+        </div>
+        <p>A document-agnostic tool that splits PDFs, Word files, Markdown and text into retrieval-ready chunks for any RAG pipeline — at real structural boundaries, never mid-sentence. Available as a Python CLI and as a <strong>drag-and-drop browser tool</strong>.</p>
+        <p style="margin-top:10px">Its useful trick is that structure detection is <em>scored</em>, not first-match. An early version latched onto lines beginning "Section 515(3)(b)…" — which were cross-references inside sentences, not headings — and shredded the document. It now generates every candidate structure and ranks them, penalising both over-matching (the same heading recurring dozens of times) and under-matching (6 headings across 422 pages). On the same file that moved detection from 6 useless blocks to 210 correct ones.</p>
+        <p style="margin-top:10px">Detects scanned PDFs and flags them for OCR rather than emitting unusable text. The browser version processes files <strong>client-side with no upload</strong>, so it is safe to point at confidential documents.</p>
+        <div class="tools"><span class="tag">Python</span><span class="tag">JavaScript</span><span class="tag">pdf.js</span><span class="tag">No upload</span></div>
+        <a class="link" href="universal-chunker/chunker.html">Open the tool &rarr;</a>
+        <a class="link" href="https://github.com/abaasairam-ai/universal-document-chunker" target="_blank" rel="noopener" style="margin-left:18px">View on GitHub &rarr;</a>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="capabilities">
+    <div class="shead">
+      <h2>What I do</h2>
+      <span class="eyebrow">Finance depth &times; AI leverage</span>
+    </div>
+    <div class="caps">
+      <div>
+        <h4>Finance &amp; Compliance</h4>
+        <ul>
+          <li>GST &amp; TDS compliance and filings</li>
+          <li>AR / AP and vendor management</li>
+          <li>Revenue recognition</li>
+          <li>Subscription &amp; billing operations</li>
+          <li>Reconciliation &amp; month-end close</li>
+          <li>Indian regulatory reporting</li>
+        </ul>
+      </div>
+      <div>
+        <h4>AI &amp; Automation</h4>
+        <ul>
+          <li>Retrieval-Augmented Generation (RAG)</li>
+          <li>Document parsing &amp; chunking</li>
+          <li>Vector databases &amp; embeddings</li>
+          <li>Local / private AI (data stays in-house)</li>
+          <li>Python tools &amp; workflow scripts</li>
+          <li>Claude Code &amp; the Claude API</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="about">
+    <div class="shead">
+      <h2>About</h2>
+      <span class="eyebrow">Background</span>
+    </div>
+    <p>I'm <strong>Sairam</strong>, a financial accountant in Hyderabad, India, leading a team of four across full-cycle accounting, payroll, GST/TDS, audits and regulatory filings — <strong>CA (Inter)</strong> qualified.</p>
+    <p>What sets my work apart is that I don't just run finance processes — I <strong>automate them</strong>. Self-taught in Python and AI tooling, I build my own tools rather than buying software: JSON generators for tax filings, reconciliation engines, document-parsing pipelines, and private AI assistants that keep sensitive data in-house.</p>
+    <p>I care about the unglamorous part. Most AI-in-finance demos fall over on real documents — a table split across pages, a section number formatted inconsistently, a confident answer with no citation. Getting those right is the actual work, and it's where a finance background beats a purely technical one: I know what a wrong number costs.</p>
+    <p>I'm looking for a <strong>remote finance role</strong> with a forward-looking, AI-embracing team, where finance rigor and automation-building come together.</p>
+  </section>
+
+</main>
+
+<footer id="contact">
+  <div class="wrap">
+    <span class="eyebrow">Get in touch</span>
+    <div class="flinks">
+      <a href="mailto:sairamr62@gmail.com">sairamr62@gmail.com</a>
+      <a href="https://www.linkedin.com/in/sairam-reddy577664190" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://github.com/abaasairam-ai" target="_blank" rel="noopener">GitHub</a>
+    </div>
+    <p class="fnote">Hyderabad, India &middot; Available remote &middot; Built and deployed by me</p>
+  </div>
+</footer>
+
+</body>
+</html>
