@@ -79,15 +79,17 @@
   .fan li:last-child::before{border-right:1.5px solid var(--line)}
   .fan li:only-child::before,.fan li:only-child::after{display:none}
   .fan ul::before{content:'';position:absolute;top:0;left:50%;height:17px;border-left:1.5px solid var(--line)}
-  .bx{display:inline-block;padding:12px 14px 11px;border-radius:11px;font-size:13.5px;font-weight:500;line-height:1.35;
-      border:1px solid var(--line);background:var(--surface);min-width:110px;max-width:158px;transition:.15s}
-  .bx i{display:block;font-size:20px;margin-bottom:6px;opacity:.9}
+  .bx{display:inline-block;padding:16px 16px 14px;border-radius:12px;font-size:14.5px;font-weight:500;line-height:1.35;
+      border:1px solid var(--line);background:var(--surface);min-width:142px;max-width:178px;transition:.18s}
+  .bx i{display:block;font-size:26px;margin-bottom:8px;opacity:.85}
   .bx small{display:block;font-weight:400;font-size:11.5px;color:var(--muted);margin-top:4px}
   .bx.k{cursor:pointer}
-  .bx.k:hover{border-color:var(--accent);transform:translateY(-2px)}
+  .bx.k:hover{border-color:var(--accent);transform:translateY(-3px);box-shadow:0 6px 18px rgba(22,35,44,.07)}
   .ai{background:var(--accent-bg);border-color:var(--accent-br);color:var(--accent-ink)}
   .fi{background:var(--amber-bg);border-color:var(--amber-br);color:var(--amber)}
-  .chev{font-size:10px;opacity:.5;margin-top:5px;display:block}
+  .cnt{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;
+       color:var(--faint);margin-top:8px}
+  .chev{font-size:11px;opacity:.45;margin-top:3px;display:block}
   .lnk{display:inline-flex;align-items:center;gap:4px;font-size:11px;color:var(--accent-ink);
        border:1px solid var(--accent-br);border-radius:5px;padding:2px 7px;margin:6px 3px 0}
   .lnk:hover{background:var(--accent-bg)}
@@ -251,7 +253,12 @@ const TREE = { t:'Skills', ic:'ti-hierarchy-2', c:[
   ]}
 ]};
 
-let path = [];
+function count(n){
+  let leaves = 0;
+  (function walk(x){ if(!x.c){leaves++;return;} x.c.forEach(walk); })(n);
+  return leaves + (leaves===1?' project':' projects');
+}
+let path = [0];
 function draw(){
   const spine = [TREE]; let n = TREE;
   for (const i of path){ n = n.c[i]; spine.push(n); }
@@ -274,6 +281,7 @@ function draw(){
         + (kids?' onclick="dn('+i+')"':'') + '>'
         + '<i class="ti '+k.ic+'" aria-hidden="true"></i>' + k.t
         + (k.s?'<small>'+k.s+'</small>':'')
+        + (kids?'<span class="cnt">'+count(k)+'</span>':'')
         + (k.links? k.links.map(l=>'<a class="lnk" href="'+l[1]+'"'+(l[1].startsWith('http')?' target="_blank" rel="noopener"':'')+'>'+l[0]+'</a>').join(''):'')
         + (kids?'<span class="chev">&#9662;</span>':'')
         + '</span></li>';
