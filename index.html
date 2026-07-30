@@ -316,7 +316,7 @@
       <h1>Finance professional who <em>automates</em> the work.</h1>
       <p class="lede">AI-first accountant with 5+ years across full-cycle accounting, payroll, GST/TDS and audits — pairing that depth with hands-on AI engineering to cut close cycles, eliminate manual rework and sharpen management reporting.</p>
       <dl class="meta" style="margin-top:30px;margin-bottom:0">
-        <div><dt>Retrieval, measured</dt><dd>60% top-1 · 100% top-5</dd></div>
+        <div><dt>Retrieval, measured</dt><dd>43% top-1 · 86% top-5 · 32 cases</dd></div>
         <div><dt>Act indexed</dt><dd>1,505 chunks · 536/536</dd></div>
         <div><dt>Claude Desktop</dt><dd>MCP server, live</dd></div>
         <div><dt>Privacy</dt><dd>Runs air-gapped</dd></div>
@@ -581,7 +581,7 @@ var TREE = { t:"What I've built", ic:'ti-hierarchy-2', c:[
           links:[['Repo',R+'income-tax-rag']] },
         { t:'Query expansion', s:'"TDS" appears zero times in the Act. Expanded to its wording before searching.', ic:'ti-arrows-shuffle',
           links:[['Repo',R+'income-tax-rag']] },
-        { t:'Hybrid retrieval', s:'Keyword ranking fused with meaning search, because meaning alone favoured wording over substance. Right answer now in the top 5 every time, up from 9 in 10.', ic:'ti-arrows-join',
+        { t:'Hybrid retrieval', s:'Keyword ranking fused with meaning search, because meaning alone favoured wording over substance. It clearly improves ranking — top-3 goes 64% to 75% — but whether it improves top-1 is still unresolved at 32 cases.', ic:'ti-arrows-join',
           links:[['Repo',R+'income-tax-rag']] } ]},
       { t:'Generation', s:'write the answer', ic:'ti-message-2', c:[
         { t:'MCP server', s:'The index plugs into Claude Desktop as a tool. It returns sourced provisions and never writes a sentence, so it cannot invent a citation.', ic:'ti-plug',
@@ -596,13 +596,15 @@ var TREE = { t:"What I've built", ic:'ti-hierarchy-2', c:[
         { t:'Documented failure', s:'It fabricated a citation. Cause diagnosed, fixed, and left visible.', ic:'ti-bug',
           links:[['Repo',R+'income-tax-rag']] } ]},
       { t:'Measurement', s:'test my own retrieval', ic:'ti-chart-dots', c:[
-        { t:'Eval set', s:'12 cases — 10 retrieval, 2 guardrail. Written and measured before changing anything, so improvements can be proved rather than claimed.', ic:'ti-checkup-list',
+        { t:'Eval set', s:'32 cases — 28 retrieval, 4 guardrail. Grown from an original 12, with every case tagged by the failure class it probes. Ground truth was read from the Act itself, never taken from the retriever being tested.', ic:'ti-checkup-list',
           links:[['Repo',R+'income-tax-rag']] },
-        { t:'Baseline', s:'Right answer ranked first 60% of the time, in the top 5 90%. MRR 0.665.', ic:'ti-chart-bar',
+        { t:'Baseline', s:'Right answer ranked first 39% of the time, in the top 5 82%. MRR 0.539. Semantic search alone, measured across all 32 cases.', ic:'ti-chart-bar',
           links:[['Repo',R+'income-tax-rag']] },
-        { t:'The honest result', s:'Hybrid retrieval lifted top-5 from 9 in 10 to 10 in 10. Top-1 did not move. I expected it would.', ic:'ti-target-off',
+        { t:'Two findings withdrawn', s:'Growing the set from 12 cases to 32 overturned two findings I had already published. Both retractions are written up in the README rather than quietly deleted.', ic:'ti-target-off',
           links:[['Repo',R+'income-tax-rag']] },
-        { t:'Guardrail margin', s:'A correct answer scored 0.031 from being refused. The band between weak-but-right and nonsense is 0.15 wide, so the threshold cannot be tuned blind.', ic:'ti-ruler-2',
+        { t:'Per-tag breakdown', s:'The aggregate says hybrid is better. Broken down by failure class it trades one for another — it buys the procedural-vs-charging cases and pays for it in thin-heading. Without tags that trade is invisible.', ic:'ti-table',
+          links:[['Repo',R+'income-tax-rag']] },
+        { t:'Guardrail margin', s:'A correct answer scored 0.031 from being refused. The band between weak-but-right and wrong-domain is 0.13 wide, so the threshold cannot be tuned blind.', ic:'ti-ruler-2',
           links:[['Repo',R+'income-tax-rag']] } ]}
     ]},
     { t:'Document processing', s:'parse any format', ic:'ti-file-text', c:[
