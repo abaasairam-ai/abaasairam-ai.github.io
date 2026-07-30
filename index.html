@@ -573,8 +573,12 @@ var TREE = { t:"What I've built", ic:'ti-hierarchy-2', c:[
         { t:'Local embeddings', s:'MiniLM + Chroma on the machine. 1,420 chunks indexed, nothing uploaded.', ic:'ti-vector-triangle',
           links:[['Repo',R+'income-tax-rag']] },
         { t:'Query expansion', s:'"TDS" appears zero times in the Act. Expanded to its wording before searching.', ic:'ti-arrows-shuffle',
+          links:[['Repo',R+'income-tax-rag']] },
+        { t:'Hybrid retrieval', s:'Keyword ranking fused with meaning search, because meaning alone favoured wording over substance. Right answer now in the top 5 every time, up from 9 in 10.', ic:'ti-arrows-join',
           links:[['Repo',R+'income-tax-rag']] } ]},
       { t:'Generation', s:'write the answer', ic:'ti-message-2', c:[
+        { t:'MCP server', s:'The index plugs into Claude Desktop as a tool. It returns sourced provisions and never writes a sentence, so it cannot invent a citation.', ic:'ti-plug',
+          links:[['Repo',R+'income-tax-rag']] },
         { t:'Ollama, air-gapped', s:'llama3.2 running locally. Wifi off, still answers.', ic:'ti-plug-connected-x',
           links:[['Repo',R+'income-tax-rag']] },
         { t:'Grounded prompts', s:'Answer only from context, cite the section, refuse otherwise.', ic:'ti-quote',
@@ -583,6 +587,15 @@ var TREE = { t:"What I've built", ic:'ti-hierarchy-2', c:[
         { t:'Distance threshold', s:'Refuses before the model is asked. A prompt is a request; a threshold is not.', ic:'ti-ruler-measure',
           links:[['Repo',R+'income-tax-rag']] },
         { t:'Documented failure', s:'It fabricated a citation. Cause diagnosed, fixed, and left visible.', ic:'ti-bug',
+          links:[['Repo',R+'income-tax-rag']] } ]},
+      { t:'Measurement', s:'test my own retrieval', ic:'ti-chart-dots', c:[
+        { t:'Eval set', s:'12 cases — 10 retrieval, 2 guardrail. Written and measured before changing anything, so improvements can be proved rather than claimed.', ic:'ti-checkup-list',
+          links:[['Repo',R+'income-tax-rag']] },
+        { t:'Baseline', s:'Right answer ranked first 60% of the time, in the top 5 90%. MRR 0.665.', ic:'ti-chart-bar',
+          links:[['Repo',R+'income-tax-rag']] },
+        { t:'The honest result', s:'Hybrid retrieval lifted top-5 from 9 in 10 to 10 in 10. Top-1 did not move. I expected it would.', ic:'ti-target-off',
+          links:[['Repo',R+'income-tax-rag']] },
+        { t:'Guardrail margin', s:'A correct answer scored 0.031 from being refused. The band between weak-but-right and nonsense is 0.15 wide, so the threshold cannot be tuned blind.', ic:'ti-ruler-2',
           links:[['Repo',R+'income-tax-rag']] } ]}
     ]},
     { t:'Document processing', s:'parse any format', ic:'ti-file-text', c:[
