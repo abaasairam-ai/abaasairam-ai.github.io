@@ -271,3 +271,18 @@ tr.grp{background:var(--surface)} tr.grp td{font-weight:600;font-size:12px}
   .term pre{font-size:11px}
 }
 @media(max-width:380px){ .stats{grid-template-columns:1fr} }
+
+/* ---------- screen switching (see demo.js) ---------- */
+.screen[hidden]{display:none}
+.tabs-bar{display:flex;gap:4px;padding:0 20px;border-bottom:1px solid var(--line);
+          overflow-x:auto;-webkit-overflow-scrolling:touch;background:var(--bg)}
+.tab{flex:none;appearance:none;border:0;background:none;font-family:inherit;cursor:pointer;
+     font-size:12.5px;font-weight:600;color:var(--muted);padding:10px 12px;
+     border-bottom:2px solid transparent;white-space:nowrap}
+.tab:hover{color:var(--fg)}
+.tab.on{color:var(--fg);border-bottom-color:var(--accent)}
+.tab:focus-visible{outline:2px solid var(--accent);outline-offset:-2px;border-radius:4px}
+.side a{cursor:pointer}
+.side a:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.hint-nav{font-size:11.5px;color:var(--faint);margin:0 0 12px}
+@media(max-width:620px){ .tabs-bar{padding:0 14px} .tab{padding:10px 9px;font-size:12px} }

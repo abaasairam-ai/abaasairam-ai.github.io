@@ -16,10 +16,9 @@
 <div class="warn">
   <div class="in">
     <b>Demo — not a real screen</b>
-    <p>This page is a <strong>rebuilt copy of the interface</strong>, drawn with the application's own
-       design tokens. It is <strong>not a screenshot</strong> and it is not connected to anything.
-       Every name, identifier, amount and date below was <strong>invented for this page</strong>.
-       No real client, subscription, invoice or amount appears anywhere on it.</p>
+    <p>A <strong>rebuilt copy of the interface</strong>, drawn with the application's own design
+       tokens. Not a screenshot, and not connected to anything. Every name, identifier, amount and
+       date was <strong>invented for this page</strong>. No real client, subscription, invoice or amount appears anywhere on it.</p>
     <a class="back" href="../index.html#work">← Back to the site</a>
   </div>
 </div>
@@ -27,30 +26,32 @@
 <div class="page">
 
   <div class="intro">
-    <h1>Billing API &mdash; import preview and request log</h1>
-    <p class="sub">The backend behind subscription lifecycle, invoicing and client data. This screen shows the two things worth seeing: a bulk import that previews before it commits, and a request log where an unauthorised call is refused because nothing explicitly allowed it.</p>
+    <h1>Billing API &mdash; import preview, request log, schema history</h1>
+    <p class="sub">The backend behind subscription lifecycle, invoicing and client data. Three screens: a bulk import that previews before committing, a request log where an unauthorised call is refused, and the migration history.</p>
 
     <div class="split">
       <div class="box real">
         <h4>What is real here</h4>
         <ul>
-          <li>The endpoint shapes, the /v1 versioning and the response codes</li>
+          <li>The endpoint shapes, /v1 versioning and response codes</li>
           <li>Money serialised as a string to preserve precision</li>
-          <li>Deny-by-default authorisation &mdash; the 403 is the intended behaviour</li>
-          <li>The dry-run then transactional-commit import flow</li>
+          <li>Deny-by-default authorisation — the 403 is intended</li>
+          <li>The migration names, which are the real ones</li>
         </ul>
       </div>
       <div class="box fake">
         <h4>What is invented</h4>
         <ul>
           <li>Every client name, plan and amount</li>
-          <li>The row counts and rejection reasons</li>
+          <li>Row counts and rejection reasons</li>
           <li>The client identifier in the DELETE call</li>
-          <li>All timestamps and record counts</li>
+          <li>All timestamps</li>
         </ul>
       </div>
     </div>
   </div>
+
+  <p class="hint-nav">Three screens — use the menu or the tabs to move between them.</p>
 
   <div class="app">
     <aside class="side">
@@ -58,14 +59,14 @@
       <div class="grp">Billing</div>
       <a href="#" onclick="return false"><span class="dot"></span>Subscriptions</a>
       <a href="#" onclick="return false"><span class="dot"></span>Invoices</a>
-      <a href="#" class="on" onclick="return false"><span class="dot"></span>Imports</a>
+      <a href="#import" data-go="import" tabindex="0"><span class="dot"></span>Imports</a>
       <div class="grp">Data</div>
       <a href="#" onclick="return false"><span class="dot"></span>Clients</a>
       <a href="#" onclick="return false"><span class="dot"></span>Plans</a>
       <div class="grp">System</div>
+      <a href="#requests" data-go="requests" tabindex="0"><span class="dot"></span>Request log</a>
+      <a href="#migrations" data-go="migrations" tabindex="0"><span class="dot"></span>Migrations</a>
       <a href="#" onclick="return false"><span class="dot"></span>Audit trail</a>
-      <a href="#" onclick="return false"><span class="dot"></span>Roles</a>
-      <a href="#" onclick="return false"><span class="dot"></span>API reference</a>
       <div class="foot">Demo build<br />No backend attached</div>
     </aside>
 
@@ -81,20 +82,14 @@
           <span class="btn p">Commit 1,167 rows</span>
         </div>
       </div>
+      <div class="tabs-bar" role="tablist"><button type="button" class="tab" role="tab" data-go="import">Import preview</button><button type="button" class="tab" role="tab" data-go="requests">Request log</button><button type="button" class="tab" role="tab" data-go="migrations">Migrations</button></div>
 
       <div class="body">
-        <div class="stats">
-          <div class="stat "><dt>Active subscriptions</dt><dd>486</dd></div>
-          <div class="stat acc"><dt>Invoiced this month</dt><dd>&#8377;38.4 L</dd></div>
-          <div class="stat good"><dt>Collected</dt><dd>&#8377;31.9 L</dd></div>
-          <div class="stat bad"><dt>Overdue</dt><dd>&#8377;6.5 L</dd></div>
-          <div class="stat "><dt>Import rows staged</dt><dd>1,204</dd></div>
-          <div class="stat warn"><dt>Rejected by validation</dt><dd>37</dd></div>
-        </div>
+        <section class="screen" id="import" data-title="Bulk import — dry run" data-crumb="Imports / Preview">
         <div class="note">
-          <span class="tag">Import</span><b>Dry run first, then a transaction.</b> A bulk import previews every row and what it would change. Only on confirmation does it commit &mdash; in one transaction, with an audit row written. A half-applied import is worse than no import, so the design makes it impossible.
+          <span class="tag">Import</span><b>Dry run first, then a transaction.</b> Every row is previewed with what it would change. Only on confirmation does it commit &mdash; in one transaction, with an audit row. A half-applied import is worse than none, so the design makes it impossible.
         </div>
-        <div class="sec">Import preview &mdash; subscriptions.csv &middot; not yet committed</div>
+        <div class="sec">subscriptions.csv &mdash; not yet committed</div>
         <div class="tw"><p class="swipe">Scroll the table sideways</p><div class="scroll"><table>
           <thead><tr><th>Row</th><th>Client</th><th>Plan</th><th class="num">Amount</th><th>Action</th><th>Validation</th></tr></thead>
           <tbody>
@@ -106,23 +101,41 @@
           </tbody>
         </table></div></div>
         <div class="note">
-          <span class="tag">Precision</span><b>Money crosses the wire as a string.</b> <span class="mono">"1,20,000.00"</span>, not <span class="mono">120000</span>. JSON numbers are doubles, and a billing system that quietly loses the last paisa loses it everywhere at once. Serialising as a string costs nothing.
+          <span class="tag">Precision</span><b>Money crosses the wire as a string.</b> <span class="mono">"1,20,000.00"</span>, not <span class="mono">120000</span>. JSON numbers are doubles, and a billing system that loses the last paisa loses it everywhere at once.
         </div>
+        </section>
+        <section class="screen" id="requests" data-title="Request log" data-crumb="System / Requests">
         <div class="sec">Recent API calls</div>
         <div class="tw"><p class="swipe">Scroll the table sideways</p><div class="scroll"><table>
           <thead><tr><th>Method</th><th>Endpoint</th><th>Role</th><th class="num">Status</th><th>Note</th></tr></thead>
           <tbody>
             <tr><td class="mono">GET</td><td class="mono">/v1/subscriptions?status=active</td><td>finance</td><td class="num"><span class="band ok">200</span></td><td>486 records, paged</td></tr>
             <tr><td class="mono">POST</td><td class="mono">/v1/invoices/generate</td><td>finance</td><td class="num"><span class="band ok">201</span></td><td>214 invoices, one transaction</td></tr>
-            <tr><td class="mono">POST</td><td class="mono">/v1/imports/dry-run</td><td>admin</td><td class="num"><span class="band ok">200</span></td><td>1,204 rows staged, 37 rejected</td></tr>
-            <tr><td class="mono">DELETE</td><td class="mono">/v1/clients/ac-1043</td><td>viewer</td><td class="num"><span class="band err">403</span></td><td>no rule permits it &mdash; denied by default</td></tr>
+            <tr><td class="mono">POST</td><td class="mono">/v1/imports/dry-run</td><td>admin</td><td class="num"><span class="band ok">200</span></td><td>1,204 staged, 37 rejected</td></tr>
+            <tr><td class="mono">DELETE</td><td class="mono">/v1/clients/ac-1043</td><td>viewer</td><td class="num"><span class="band err">403</span></td><td>no rule permits it</td></tr>
             <tr><td class="mono">GET</td><td class="mono">/v1/audit?entity=invoice</td><td>admin</td><td class="num"><span class="band ok">200</span></td><td>full change history</td></tr>
           </tbody>
         </table></div></div>
         <div class="note">
-          <span class="tag">Authorisation</span><b>The 403 above is the design, not a bug.</b> The guard refuses unless a rule permits, rather than permitting unless a rule refuses. Adding an endpoint without adding a rule makes it inaccessible &mdash; which is the failure you want.
+          <span class="tag">Authorisation</span><b>The 403 is the design, not a bug.</b> The guard refuses unless a rule permits, rather than permitting unless a rule refuses. Adding an endpoint without a rule makes it inaccessible &mdash; which is the failure you want.
         </div>
-
+        </section>
+        <section class="screen" id="migrations" data-title="Schema history" data-crumb="System / Migrations">
+        <div class="note">
+          <span class="tag">Evidence</span><b>The migration names are the argument.</b> A system that grew under real use leaves a trail. These are not <span class="mono">migration_01</span> through <span class="mono">migration_12</span>.
+        </div>
+        <div class="sec">Applied migrations</div>
+        <div class="tw"><p class="swipe">Scroll the table sideways</p><div class="scroll"><table>
+          <thead><tr><th>#</th><th>Name</th><th>What it introduced</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">03</td><td class="mono">lifecycle_engine</td><td>Subscription state transitions</td></tr>
+            <tr><td class="mono">05</td><td class="mono">invoice_engine</td><td>Invoice generation from subscriptions</td></tr>
+            <tr><td class="mono">07</td><td class="mono">invoice_voided_adjustments</td><td>Voiding without deleting history</td></tr>
+            <tr><td class="mono">09</td><td class="mono">revenue_snapshots</td><td>Point-in-time revenue positions</td></tr>
+            <tr><td class="mono">12</td><td class="mono">invoice_perf_indexes</td><td>Indexes added once volume showed the need</td></tr>
+          </tbody>
+        </table></div></div>
+        </section>
       </div>
     </div>
   </div>
@@ -131,13 +144,15 @@
   <div class="foot">
     <h4>Reading this honestly</h4>
     <ul>
-          <li>This is a <strong>reconstruction</strong>. The real service needs PostgreSQL with its migrations applied, and an identity provider for the role seam.</li>
-          <li>The import rows were chosen to show the validation outcomes that matter: clean, changed, duplicate and unresolvable.</li>
-          <li>The twelve database migrations behind this are named for what they did &mdash; that history is the evidence it grew under real use.</li>
+          <li>This is a <strong>reconstruction</strong>. The real service needs PostgreSQL with migrations applied and an identity provider for the role seam.</li>
+          <li>The import rows show the validation outcomes that matter: clean, changed, duplicate, unresolvable.</li>
+          <li>Read this next to the Subscriptions dashboard demo — that is what this replaced.</li>
         </ul>
-    <div class="more"><a href="index.html">← All ten demo screens</a></div>
+    <div class="more"><strong>Why the repository is private.</strong> The code itself is <strong>private</strong> &mdash; it was built in a finance role and belongs to that context, so it is not published openly. <strong>Access can be granted on request</strong> for anyone assessing the work.
+      <br /><a href="index.html">← All ten demo screens</a></div>
   </div>
 
 </div>
+<script src="demo.js"></script>
 </body>
 </html>

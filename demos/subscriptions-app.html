@@ -16,10 +16,9 @@
 <div class="warn">
   <div class="in">
     <b>Demo — not a real screen</b>
-    <p>This page is a <strong>rebuilt copy of the interface</strong>, drawn with the application's own
-       design tokens. It is <strong>not a screenshot</strong> and it is not connected to anything.
-       Every name, identifier, amount and date below was <strong>invented for this page</strong>.
-       No real client, renewal or amount appears anywhere on it.</p>
+    <p>A <strong>rebuilt copy of the interface</strong>, drawn with the application's own design
+       tokens. Not a screenshot, and not connected to anything. Every name, identifier, amount and
+       date was <strong>invented for this page</strong>. No real client, renewal or amount appears anywhere on it.</p>
     <a class="back" href="../index.html#work">← Back to the site</a>
   </div>
 </div>
@@ -27,17 +26,17 @@
 <div class="page">
 
   <div class="intro">
-    <h1>Subscription dashboard &mdash; renewals and the auto-lock</h1>
+    <h1>Subscription dashboard &mdash; renewals, and the limits that forced a rebuild</h1>
     <p class="sub">Tracks subscriptions and renewal dates so a lapse is noticed before the client notices. Kept in the portfolio deliberately as the earlier, simpler version of what the Billing API became.</p>
 
     <div class="split">
       <div class="box real">
         <h4>What is real here</h4>
         <ul>
-          <li>The dashboard layout and the renewal-status logic</li>
+          <li>The dashboard layout and renewal-status logic</li>
           <li>The payment-deadline auto-lock behaviour</li>
-          <li>JSON-file persistence &mdash; and its limits</li>
-          <li>The relationship to the Billing API rebuild</li>
+          <li>JSON-file persistence — and its limits</li>
+          <li>The comparison table against the rebuild</li>
         </ul>
       </div>
       <div class="box fake">
@@ -46,24 +45,25 @@
           <li>Every client name, category and amount</li>
           <li>All renewal dates and countdowns</li>
           <li>The relationship-manager assignments</li>
-          <li>The totals in the stat strip</li>
         </ul>
       </div>
     </div>
   </div>
 
+  <p class="hint-nav">Two screens &mdash; the dashboard, and what made it need replacing.</p>
+
   <div class="app">
     <aside class="side">
       <div class="logo"><span class="m">S</span>Subscriptions</div>
       <div class="grp">Dashboard</div>
-      <a href="#" class="on" onclick="return false"><span class="dot"></span>Overview</a>
+      <a href="#renewals" data-go="renewals" tabindex="0"><span class="dot"></span>Overview</a>
       <a href="#" onclick="return false"><span class="dot"></span>By owner</a>
       <a href="#" onclick="return false"><span class="dot"></span>By category</a>
       <div class="grp">Records</div>
       <a href="#" onclick="return false"><span class="dot"></span>Subscriptions</a>
       <a href="#" onclick="return false"><span class="dot"></span>Clients</a>
-      <a href="#" onclick="return false"><span class="dot"></span>Invoices</a>
       <div class="grp">System</div>
+      <a href="#limits" data-go="limits" tabindex="0"><span class="dot"></span>Limits</a>
       <a href="#" onclick="return false"><span class="dot"></span>Settings</a>
       <div class="foot">Demo build<br />No backend attached</div>
     </aside>
@@ -80,33 +80,50 @@
           <span class="btn a">New subscription</span>
         </div>
       </div>
+      <div class="tabs-bar" role="tablist"><button type="button" class="tab" role="tab" data-go="renewals">Renewals</button><button type="button" class="tab" role="tab" data-go="limits">What it couldn't do</button></div>
 
       <div class="body">
+        <section class="screen" id="renewals" data-title="Renewals" data-crumb="Dashboard / Overview">
         <div class="stats">
-          <div class="stat "><dt>Tracked subscriptions</dt><dd>148</dd></div>
+          <div class="stat "><dt>Tracked</dt><dd>148</dd></div>
           <div class="stat warn"><dt>Renewing in 30 days</dt><dd>22</dd></div>
-          <div class="stat bad"><dt>Past deadline &mdash; locked</dt><dd>6</dd></div>
+          <div class="stat bad"><dt>Past deadline — locked</dt><dd>6</dd></div>
           <div class="stat acc"><dt>Annual value</dt><dd>&#8377;92.4 L</dd></div>
           <div class="stat good"><dt>Renewed this quarter</dt><dd>41</dd></div>
         </div>
-        <div class="note">
-          <span class="tag">History</span><b>This is the first version, kept on purpose.</b> Persistence here is a JSON file. It worked until it did not &mdash; no concurrent writes, no audit, no roles. The Billing API is what replaced it. Shown together, the pair says more than either does alone.
-        </div>
-        <div class="sec">Renewals due</div>
         <div class="tw"><p class="swipe">Scroll the table sideways</p><div class="scroll"><table>
           <thead><tr><th>Client</th><th>Category</th><th>Renewal date</th><th class="num">Value</th><th>Owner</th><th>Status</th></tr></thead>
           <tbody>
             <tr><td>Northwind Textiles Ltd</td><td>Software</td><td class="mono">14 Aug 2026</td><td class="num">1,20,000.00</td><td>RM&nbsp;1</td><td><span class="band warn">due in 13 days</span></td></tr>
             <tr><td>Fairhaven Logistics Pvt Ltd</td><td>Compliance</td><td class="mono">22 Aug 2026</td><td class="num">2,40,000.00</td><td>RM&nbsp;2</td><td><span class="band warn">due in 21 days</span></td></tr>
-            <tr><td>Blackthorn Media Services</td><td>Software</td><td class="mono">03 Jul 2026</td><td class="num">10,000.00</td><td>RM&nbsp;1</td><td><span class="band err">locked &mdash; past deadline</span></td></tr>
+            <tr><td>Blackthorn Media Services</td><td>Software</td><td class="mono">03 Jul 2026</td><td class="num">10,000.00</td><td>RM&nbsp;1</td><td><span class="band err">locked</span></td></tr>
             <tr><td>Cindermill Engineering</td><td>Advisory</td><td class="mono">30 Sep 2026</td><td class="num">4,80,000.00</td><td>RM&nbsp;3</td><td><span class="band ok">renewed</span></td></tr>
             <tr><td>Otterbourne Consulting LLP</td><td>Compliance</td><td class="mono">11 Sep 2026</td><td class="num">6,00,000.00</td><td>RM&nbsp;2</td><td><span class="band ok">renewed</span></td></tr>
           </tbody>
         </table></div></div>
         <div class="note">
-          <span class="tag">Lock</span><b>Past the payment deadline, the record locks itself.</b> Not a reminder, not a colour change &mdash; the row stops being editable until someone with the right role clears it. The same reasoning as a refusal threshold: a prompt can be ignored, a lock cannot.
+          <span class="tag">Lock</span><b>Past the payment deadline, the record locks itself.</b> Not a reminder, not a colour change &mdash; the row stops being editable until someone with the right role clears it. Same reasoning as a refusal threshold: a prompt can be ignored, a lock cannot.
         </div>
-
+        </section>
+        <section class="screen" id="limits" data-title="Where this stopped working" data-crumb="System / Limits">
+        <div class="note">
+          <span class="tag">History</span><b>This is the first version, kept on purpose.</b> Persistence is a JSON file. It worked until it did not. The Billing API is what replaced it &mdash; and shown together, the pair says more than either does alone.
+        </div>
+        <div class="sec">What the rebuild had to fix</div>
+        <div class="tw"><p class="swipe">Scroll the table sideways</p><div class="scroll"><table>
+          <thead><tr><th>Limit here</th><th>Why it mattered</th><th>How the Billing API answers it</th></tr></thead>
+          <tbody>
+            <tr><td>JSON file persistence</td><td>Two writers, one file, lost updates</td><td>PostgreSQL with transactions</td></tr>
+            <tr><td>No roles</td><td>Anyone who could open it could change it</td><td>Deny-by-default RBAC</td></tr>
+            <tr><td>No audit trail</td><td>No way to answer &ldquo;who changed this?&rdquo;</td><td>Audit row on every mutation</td></tr>
+            <tr><td>No schema history</td><td>Shape changes were silent</td><td>Twelve named migrations</td></tr>
+            <tr><td>Amounts as JS numbers</td><td>Rounding drift over time</td><td>Money serialised as a string</td></tr>
+          </tbody>
+        </table></div></div>
+        <div class="note">
+          <span class="tag">Why keep it</span><b>&ldquo;I built this, hit its limits, and rebuilt it properly&rdquo;</b> is a better answer than either application on its own.
+        </div>
+        </section>
       </div>
     </div>
   </div>
@@ -115,13 +132,15 @@
   <div class="foot">
     <h4>Reading this honestly</h4>
     <ul>
-          <li>This is a <strong>reconstruction</strong>. The real application needs accounting-system OAuth credentials, and starts empty because it persists to a file.</li>
-          <li>Architecturally this is the least serious application in the set, and that is the point of including it.</li>
-          <li>Read it next to the Billing API demo. &ldquo;I built this, hit its limits, and rebuilt it properly&rdquo; is a better answer than either app alone.</li>
+          <li>This is a <strong>reconstruction</strong>. The real application needs accounting OAuth credentials and starts empty.</li>
+          <li>Architecturally the least serious of the ten, and that is the point of including it.</li>
+          <li>Read it next to the Billing API demo.</li>
         </ul>
-    <div class="more"><a href="index.html">← All ten demo screens</a></div>
+    <div class="more"><strong>Why the repository is private.</strong> The code itself is <strong>private</strong> &mdash; it was built in a finance role and belongs to that context, so it is not published openly. <strong>Access can be granted on request</strong> for anyone assessing the work.
+      <br /><a href="index.html">← All ten demo screens</a></div>
   </div>
 
 </div>
+<script src="demo.js"></script>
 </body>
 </html>

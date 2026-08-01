@@ -16,10 +16,9 @@
 <div class="warn">
   <div class="in">
     <b>Demo — not a real screen</b>
-    <p>This page is a <strong>rebuilt copy of the interface</strong>, drawn with the application's own
-       design tokens. It is <strong>not a screenshot</strong> and it is not connected to anything.
-       Every name, identifier, amount and date below was <strong>invented for this page</strong>.
-       No real client, deal, invoice or contact appears anywhere on it.</p>
+    <p>A <strong>rebuilt copy of the interface</strong>, drawn with the application's own design
+       tokens. Not a screenshot, and not connected to anything. Every name, identifier, amount and
+       date was <strong>invented for this page</strong>. No real client, deal, invoice or contact appears anywhere on it.</p>
     <a class="back" href="../index.html#work">← Back to the site</a>
   </div>
 </div>
@@ -37,7 +36,7 @@
           <li>The pipeline stages, deal fields and invoice states</li>
           <li>The invoicing model with tax split and part payment</li>
           <li>PDF generation and Excel export</li>
-          <li>That there are no tests &mdash; stated, not hidden</li>
+          <li>That there are no tests — stated, not hidden</li>
         </ul>
       </div>
       <div class="box fake">
@@ -45,26 +44,27 @@
         <ul>
           <li>Every client name, deal and amount</li>
           <li>All invoice numbers, dates and balances</li>
-          <li>The pipeline probabilities and close dates</li>
-          <li>The relationship-manager assignments</li>
+          <li>The probabilities and close dates</li>
         </ul>
       </div>
     </div>
   </div>
+
+  <p class="hint-nav">Two screens &mdash; use the menu or the tabs to move between them.</p>
 
   <div class="app">
     <aside class="side">
       <div class="logo"><span class="m">C</span>CRM</div>
       <div class="grp">Sales</div>
       <a href="#" onclick="return false"><span class="dot"></span>Dashboard</a>
-      <a href="#" class="on" onclick="return false"><span class="dot"></span>Deals</a>
+      <a href="#pipeline" data-go="pipeline" tabindex="0"><span class="dot"></span>Deals</a>
       <a href="#" onclick="return false"><span class="dot"></span>Leads</a>
       <a href="#" onclick="return false"><span class="dot"></span>Quotes</a>
       <div class="grp">Clients</div>
       <a href="#" onclick="return false"><span class="dot"></span>Clients</a>
       <a href="#" onclick="return false"><span class="dot"></span>Contacts</a>
       <div class="grp">Finance</div>
-      <a href="#" onclick="return false"><span class="dot"></span>Invoices</a>
+      <a href="#invoices" data-go="invoices" tabindex="0"><span class="dot"></span>Invoices</a>
       <a href="#" onclick="return false"><span class="dot"></span>Calendar</a>
       <div class="foot">Demo build<br />No backend attached</div>
     </aside>
@@ -81,8 +81,10 @@
           <span class="btn a">New deal</span>
         </div>
       </div>
+      <div class="tabs-bar" role="tablist"><button type="button" class="tab" role="tab" data-go="pipeline">Pipeline</button><button type="button" class="tab" role="tab" data-go="invoices">Invoices</button></div>
 
       <div class="body">
+        <section class="screen" id="pipeline" data-title="Pipeline" data-crumb="Sales / Deals">
         <div class="stats">
           <div class="stat "><dt>Clients</dt><dd>48</dd></div>
           <div class="stat acc"><dt>Open deals</dt><dd>17</dd></div>
@@ -92,20 +94,21 @@
           <div class="stat warn"><dt>Tasks due today</dt><dd>4</dd></div>
         </div>
         <div class="note">
-          <span class="tag">The problem it replaced</span><b>Three spreadsheets and a shared inbox.</b> Nobody could say what was in the pipeline without rebuilding the answer by hand, and two people rebuilding it got two different numbers.
+          <span class="tag">What it replaced</span><b>Three spreadsheets and a shared inbox.</b> Nobody could say what was in the pipeline without rebuilding the answer by hand, and two people rebuilding it got two different numbers.
         </div>
-        <div class="sec">Pipeline</div>
         <div class="tw"><p class="swipe">Scroll the table sideways</p><div class="scroll"><table>
-          <thead><tr><th>Deal</th><th>Client</th><th>Stage</th><th class="num">Value</th><th class="num">Probability</th><th>Expected close</th><th>Owner</th></tr></thead>
+          <thead><tr><th>Deal</th><th>Client</th><th>Stage</th><th class="num">Value</th><th class="num">Probability</th><th>Expected close</th></tr></thead>
           <tbody>
-            <tr><td>Annual tax filing package</td><td>Northwind Textiles Ltd</td><td><span class="band info">qualified</span></td><td class="num">2,50,000.00</td><td class="num">25%</td><td class="mono">30 Sep 2026</td><td>RM&nbsp;1</td></tr>
-            <tr><td>GST compliance setup</td><td>Fairhaven Logistics Pvt Ltd</td><td><span class="band info">proposal</span></td><td class="num">1,80,000.00</td><td class="num">50%</td><td class="mono">15 Aug 2026</td><td>RM&nbsp;1</td></tr>
-            <tr><td>Payroll processing contract</td><td>Blackthorn Media Services</td><td><span class="band">new</span></td><td class="num">5,00,000.00</td><td class="num">10%</td><td class="mono">01 Oct 2026</td><td>RM&nbsp;2</td></tr>
-            <tr><td>Internal audit FY26</td><td>Cindermill Engineering</td><td><span class="band warn">negotiation</span></td><td class="num">7,50,000.00</td><td class="num">75%</td><td class="mono">30 Aug 2026</td><td>RM&nbsp;3</td></tr>
-            <tr><td>Business advisory retainer</td><td>Otterbourne Consulting LLP</td><td><span class="band info">qualified</span></td><td class="num">3,00,000.00</td><td class="num">30%</td><td class="mono">01 Nov 2026</td><td>RM&nbsp;2</td></tr>
+            <tr><td>Annual tax filing package</td><td>Northwind Textiles Ltd</td><td><span class="band info">qualified</span></td><td class="num">2,50,000.00</td><td class="num">25%</td><td class="mono">30 Sep 2026</td></tr>
+            <tr><td>GST compliance setup</td><td>Fairhaven Logistics Pvt Ltd</td><td><span class="band info">proposal</span></td><td class="num">1,80,000.00</td><td class="num">50%</td><td class="mono">15 Aug 2026</td></tr>
+            <tr><td>Payroll processing contract</td><td>Blackthorn Media Services</td><td><span class="band">new</span></td><td class="num">5,00,000.00</td><td class="num">10%</td><td class="mono">01 Oct 2026</td></tr>
+            <tr><td>Internal audit FY26</td><td>Cindermill Engineering</td><td><span class="band warn">negotiation</span></td><td class="num">7,50,000.00</td><td class="num">75%</td><td class="mono">30 Aug 2026</td></tr>
+            <tr><td>Business advisory retainer</td><td>Otterbourne Consulting LLP</td><td><span class="band info">qualified</span></td><td class="num">3,00,000.00</td><td class="num">30%</td><td class="mono">01 Nov 2026</td></tr>
           </tbody>
         </table></div></div>
-        <div class="sec">Invoices</div>
+        </section>
+        <section class="screen" id="invoices" data-title="Invoices" data-crumb="Finance / Invoices">
+        <div class="sec">Raised this quarter</div>
         <div class="tw"><p class="swipe">Scroll the table sideways</p><div class="scroll"><table>
           <thead><tr><th>Invoice</th><th>Client</th><th>Issued</th><th>Due</th><th class="num">Total</th><th class="num">Paid</th><th>Status</th></tr></thead>
           <tbody>
@@ -115,9 +118,12 @@
           </tbody>
         </table></div></div>
         <div class="note">
-          <span class="tag">The honest gap</span><b>This application has no test suite.</b> 9,600 lines and zero tests. It is included because leaving it out would be a curated portfolio rather than an accurate one, and its README says the same thing.
+          <span class="tag">Output</span><b>Invoices generate as PDFs; lists export to Excel.</b> Unglamorous, and the two things a practice actually asks for daily.
         </div>
-
+        <div class="note">
+          <span class="tag">The honest gap</span><b>This application has no test suite.</b> 9,600 lines and zero tests. It is here because leaving it out would make this a curated portfolio rather than an accurate one. Its README says the same.
+        </div>
+        </section>
       </div>
     </div>
   </div>
@@ -127,12 +133,14 @@
     <h4>Reading this honestly</h4>
     <ul>
           <li>This is a <strong>reconstruction</strong>. The real application needs a database and mail credentials for its email features.</li>
-          <li>The invoices were chosen to show the three states that matter: settled, part-paid and overdue.</li>
-          <li>This is the weakest application in the set on engineering discipline, and the strongest on breadth. Both are true.</li>
+          <li>The invoices show the three states that matter: settled, part-paid, overdue.</li>
+          <li>The weakest of the ten on engineering discipline, and among the broadest in features. Both are true.</li>
         </ul>
-    <div class="more"><a href="index.html">← All ten demo screens</a></div>
+    <div class="more"><strong>Why the repository is private.</strong> The code itself is <strong>private</strong> &mdash; it was built in a finance role and belongs to that context, so it is not published openly. <strong>Access can be granted on request</strong> for anyone assessing the work.
+      <br /><a href="index.html">← All ten demo screens</a></div>
   </div>
 
 </div>
+<script src="demo.js"></script>
 </body>
 </html>

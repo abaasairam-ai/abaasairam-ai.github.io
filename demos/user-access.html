@@ -16,10 +16,9 @@
 <div class="warn">
   <div class="in">
     <b>Demo — not a real screen</b>
-    <p>This page is a <strong>rebuilt copy of the interface</strong>, drawn with the application's own
-       design tokens. It is <strong>not a screenshot</strong> and it is not connected to anything.
-       Every name, identifier, amount and date below was <strong>invented for this page</strong>.
-       No real employee, system or grant appears anywhere on it. Employee names here are invented initials.</p>
+    <p>A <strong>rebuilt copy of the interface</strong>, drawn with the application's own design
+       tokens. Not a screenshot, and not connected to anything. Every name, identifier, amount and
+       date was <strong>invented for this page</strong>. No real employee, system or grant appears anywhere on it. Employee names are invented initials.</p>
     <a class="back" href="../index.html#work">← Back to the site</a>
   </div>
 </div>
@@ -27,42 +26,43 @@
 <div class="page">
 
   <div class="intro">
-    <h1>Access register &mdash; who has access to what</h1>
+    <h1>Access register &mdash; grants and the leaver review</h1>
     <p class="sub">Tracks employees, software and the grants between them, so the access question has an answer before anyone asks it. Runs entirely on one machine against a file-based database.</p>
 
     <div class="split">
       <div class="box real">
         <h4>What is real here</h4>
         <ul>
-          <li>The register layout and the employee-software-grant model</li>
+          <li>The employee-software-grant model and both screens</li>
           <li>The leaver detection that surfaces open grants</li>
-          <li>Secure cookies gated on a dedicated variable rather than NODE_ENV</li>
+          <li>Secure cookies gated on a dedicated variable</li>
           <li>That the repository ships its own incident postmortem</li>
         </ul>
       </div>
       <div class="box fake">
         <h4>What is invented</h4>
         <ul>
-          <li>All employee initials &mdash; these are not people</li>
-          <li>The software names, roles and grant dates</li>
-          <li>Every count in the stat strip</li>
-          <li>The review dates</li>
+          <li>All employee initials — these are not people</li>
+          <li>Software names, roles and grant dates</li>
+          <li>Every count and review date</li>
         </ul>
       </div>
     </div>
   </div>
+
+  <p class="hint-nav">Two screens &mdash; use the menu or the tabs to move between them.</p>
 
   <div class="app">
     <aside class="side">
       <div class="logo"><span class="m">A</span>Access Register</div>
       <div class="grp">Register</div>
       <a href="#" onclick="return false"><span class="dot"></span>Overview</a>
-      <a href="#" class="on" onclick="return false"><span class="dot"></span>Grants</a>
+      <a href="#grants" data-go="grants" tabindex="0"><span class="dot"></span>Grants</a>
       <a href="#" onclick="return false"><span class="dot"></span>Employees</a>
       <a href="#" onclick="return false"><span class="dot"></span>Software</a>
       <div class="grp">Reviews</div>
+      <a href="#leavers" data-go="leavers" tabindex="0"><span class="dot"></span>Leavers</a>
       <a href="#" onclick="return false"><span class="dot"></span>Due for review</a>
-      <a href="#" onclick="return false"><span class="dot"></span>Leavers</a>
       <div class="grp">System</div>
       <a href="#" onclick="return false"><span class="dot"></span>Settings</a>
       <div class="foot">Demo build<br />No backend attached</div>
@@ -80,8 +80,10 @@
           <span class="btn a">Add grant</span>
         </div>
       </div>
+      <div class="tabs-bar" role="tablist"><button type="button" class="tab" role="tab" data-go="grants">Grants</button><button type="button" class="tab" role="tab" data-go="leavers">Leaver review</button></div>
 
       <div class="body">
+        <section class="screen" id="grants" data-title="Access grants" data-crumb="Register / Grants">
         <div class="stats">
           <div class="stat "><dt>Employees</dt><dd>64</dd></div>
           <div class="stat "><dt>Software tracked</dt><dd>38</dd></div>
@@ -90,9 +92,8 @@
           <div class="stat warn"><dt>Not reviewed in 90 days</dt><dd>57</dd></div>
         </div>
         <div class="note">
-          <span class="tag">The question this answers</span><b>&ldquo;Who has access to what?&rdquo;</b> Before this existed, answering it meant emailing round and hoping, and the answer was stale by the time it arrived. Three leavers with open grants is exactly the finding that makes the register worth having.
+          <span class="tag">The question this answers</span><b>&ldquo;Who has access to what?&rdquo;</b> Before this existed, answering meant emailing round and hoping, and the answer was stale by the time it arrived. Three leavers with open grants is exactly the finding that makes the register worth having.
         </div>
-        <div class="sec">Access grants</div>
         <div class="tw"><p class="swipe">Scroll the table sideways</p><div class="scroll"><table>
           <thead><tr><th>Employee</th><th>Status</th><th>Software</th><th>Role</th><th>Granted</th><th>Last reviewed</th></tr></thead>
           <tbody>
@@ -104,13 +105,26 @@
             <tr><td>K. Menon</td><td><span class="band warn">on notice</span></td><td>Payroll</td><td>Editor</td><td class="mono">27 Apr 2026</td><td class="mono">02 May 2026</td></tr>
           </tbody>
         </table></div></div>
+        </section>
+        <section class="screen" id="leavers" data-title="Leaver review" data-crumb="Reviews / Leavers">
         <div class="note">
-          <span class="tag">Configuration</span><b>Secure cookies are gated on their own switch, not on NODE_ENV.</b> A dedicated variable decides it, with a table in the README explaining when to use which. Tying cookie security to the environment name is the kind of shortcut that works until someone runs production with the wrong value set.
+          <span class="tag">The one screen that earns its keep</span><b>Everyone who has left, and what they can still open.</b> Offboarding checklists get skipped. A query that runs every time anyone looks does not.
+        </div>
+        <div class="tw"><p class="swipe">Scroll the table sideways</p><div class="scroll"><table>
+          <thead><tr><th>Employee</th><th>Left on</th><th>Grants still open</th><th>Highest role</th><th>Action</th></tr></thead>
+          <tbody>
+            <tr><td>S. Nair</td><td class="mono">30 Jun 2026</td><td class="num">2</td><td>Editor</td><td><span class="band err">revoke now</span></td></tr>
+            <tr><td>D. Pillai</td><td class="mono">14 May 2026</td><td class="num">1</td><td>Viewer</td><td><span class="band err">revoke now</span></td></tr>
+            <tr><td>R. Kurup</td><td class="mono">02 Apr 2026</td><td class="num">0</td><td>&mdash;</td><td><span class="band ok">clear</span></td></tr>
+          </tbody>
+        </table></div></div>
+        <div class="note">
+          <span class="tag">Configuration</span><b>Secure cookies are gated on their own switch, not on NODE_ENV.</b> A dedicated variable decides it, with a table in the README explaining when to use which. Tying cookie security to an environment name works until someone runs production with the wrong value.
         </div>
         <div class="note">
-          <span class="tag">Written up, not buried</span><b>This repository contains its own incident report.</b> A seed script once wiped rows from a live database here. The postmortem &mdash; root cause, paper trail, the policy change that followed &mdash; ships with the code rather than being quietly deleted.
+          <span class="tag">Written up, not buried</span><b>This repository contains its own incident report.</b> A seed script once wiped rows from a live database here. The postmortem &mdash; root cause, paper trail, the policy change that followed &mdash; ships with the code.
         </div>
-
+        </section>
       </div>
     </div>
   </div>
@@ -119,13 +133,15 @@
   <div class="foot">
     <h4>Reading this honestly</h4>
     <ul>
-          <li>This is a <strong>reconstruction</strong>. The real application is a Next.js app needing its own environment secrets generated before first run.</li>
-          <li>The three leavers with open grants are invented, but they are the exact case the register exists to catch.</li>
-          <li>Twelve test files back the real thing. The access model, not the UI, is the part worth asking about.</li>
+          <li>This is a <strong>reconstruction</strong>. The real application needs its own environment secrets generated before first run.</li>
+          <li>The leavers with open grants are invented, but they are the exact case the register exists to catch.</li>
+          <li>Twelve test files back the real thing.</li>
         </ul>
-    <div class="more"><a href="index.html">← All ten demo screens</a></div>
+    <div class="more"><strong>Why the repository is private.</strong> The code itself is <strong>private</strong> &mdash; it was built in a finance role and belongs to that context, so it is not published openly. <strong>Access can be granted on request</strong> for anyone assessing the work.
+      <br /><a href="index.html">← All ten demo screens</a></div>
   </div>
 
 </div>
+<script src="demo.js"></script>
 </body>
 </html>

@@ -16,10 +16,9 @@
 <div class="warn">
   <div class="in">
     <b>Demo — not a real screen</b>
-    <p>This page is a <strong>rebuilt copy of the interface</strong>, drawn with the application's own
-       design tokens. It is <strong>not a screenshot</strong> and it is not connected to anything.
-       Every name, identifier, amount and date below was <strong>invented for this page</strong>.
-       No real deductor, GSTIN or amount appears anywhere on it. The console text is the tool&#39;s own wording; the data passing through it is invented.</p>
+    <p>A <strong>rebuilt copy of the interface</strong>, drawn with the application's own design
+       tokens. Not a screenshot, and not connected to anything. Every name, identifier, amount and
+       date was <strong>invented for this page</strong>. No real deductor, GSTIN or amount appears anywhere on it. The console text is the tool&#39;s own wording; the data passing through it is invented.</p>
     <a class="back" href="../index.html#work">← Back to the site</a>
   </div>
 </div>
@@ -34,9 +33,9 @@
       <div class="box real">
         <h4>What is real here</h4>
         <ul>
-          <li>Every line of console output &mdash; taken from the source</li>
+          <li>Every line of console output — taken from the source</li>
           <li>The checkpoint-after-each-month and resume behaviour</li>
-          <li>The one-financial-year-per-run scope limit and its stated reason</li>
+          <li>The one-year-per-run scope limit and its stated reason</li>
           <li>The workbook columns, including amendments as negative rows</li>
         </ul>
       </div>
@@ -51,14 +50,28 @@
     </div>
   </div>
 
+  <p class="hint-nav">Two screens &mdash; the run, and what lands in the workbook.</p>
+
   <div class="app nosidebar">
     <div class="main">
-      <div class="top"><div><div class="crumb">Console</div><h2>2-run-one-fy.bat</h2></div><div class="sp"><span class="btn o">FY 2025-26</span><span class="btn s">Dry run</span><span class="btn p">Resume</span></div></div>
+      <div class="top">
+        <div>
+          <div class="crumb">Console / Run</div>
+          <h2>Run — one financial year</h2>
+        </div>
+        <div class="sp">
+          <span class="btn o">FY 2025-26</span>
+          <span class="btn s">Dry run</span>
+          <span class="btn p">Resume</span>
+        </div>
+      </div>
+      <div class="tabs-bar" role="tablist"><button type="button" class="tab" role="tab" data-go="run">Console run</button><button type="button" class="tab" role="tab" data-go="workbook">Workbook</button></div>
+
       <div class="body">
+        <section class="screen" id="run" data-title="Run — one financial year" data-crumb="Console / Run">
         <div class="note">
           <span class="tag">The problem</span><b>The portal shows one month at a time.</b> A financial year is twelve manual downloads. Several years of history is not something anyone was realistically going to do by hand.
         </div>
-        <div class="sec">A run, including a session expiry</div>
         <div class="term">
           <div class="bar"><i></i><i></i><i></i>&nbsp;Command Prompt &mdash; 2-run-one-fy.bat</div>
           <pre><span class="w">============================================================</span>
@@ -95,16 +108,17 @@ Once you&#39;re on the dashboard, return here and press ENTER.
 
 <span class="y">STEP 3: WRITING WORKBOOK</span>
   Consolidated  <span class="b">158 rows</span> across 12 months, 9 amendments.
-  Excel saved to : <span class="b">out\\gst-tds-FY2025-26.xlsx</span>
+  Excel saved to : <span class="b">out\gst-tds-FY2025-26.xlsx</span>
   <span class="g">Done.</span></pre>
         </div>
         <div class="note">
-          <span class="tag">Resilience</span><b>The session expiry above is the point of this screen.</b> The portal logs you out mid-run. Because every month is checkpointed as it completes, the run resumes from August rather than restarting from April. Losing four months of work to a timeout is what makes people give up on a tool.
+          <span class="tag">Resilience</span><b>The session expiry above is the point of this screen.</b> The portal logs you out mid-run. Because every month is checkpointed as it completes, the run resumes from August rather than restarting from April. Losing four months of work to a timeout is what makes people abandon a tool.
         </div>
+        </section>
+        <section class="screen" id="workbook" data-title="Consolidated workbook" data-crumb="Output / Workbook">
         <div class="note">
-          <span class="tag">Scope</span><b>One financial year per run, deliberately.</b> The docstring says it plainly: safer than ninety months in one session. A deliberate scope cut, written down with its reason, is worth more than an ambitious version that fails at month forty.
+          <span class="tag">Scope</span><b>One financial year per run, deliberately.</b> The docstring says it plainly: safer than ninety months in one session. A deliberate scope cut with its reason written down is worth more than an ambitious version that fails at month forty.
         </div>
-        <div class="sec">What lands in the workbook</div>
         <div class="tw"><p class="swipe">Scroll the table sideways</p><div class="scroll"><table>
           <thead><tr><th>Month</th><th>Deductor GSTIN</th><th>Deductor</th><th class="num">Taxable</th><th class="num">TDS</th><th>Type</th></tr></thead>
           <tbody>
@@ -115,6 +129,10 @@ Once you&#39;re on the dashboard, return here and press ENTER.
             <tr><td class="mono">Jun 2025</td><td class="mono">29AAACA0017Z1Z6</td><td>Cindermill Engineering</td><td class="num">2,41,000.00</td><td class="num">4,820.00</td><td>TDS</td></tr>
           </tbody>
         </table></div></div>
+        <div class="note">
+          <span class="tag">Operational detail</span><b>Checkpoint, resume, dry run, screenshot on failure.</b> Tax collected at source is skipped on purpose &mdash; another scope cut with a reason attached. All of it visible in thirty lines of module docstring.
+        </div>
+        </section>
       </div>
     </div>
   </div>
@@ -123,13 +141,15 @@ Once you&#39;re on the dashboard, return here and press ENTER.
   <div class="foot">
     <h4>Reading this honestly</h4>
     <ul>
-          <li>This is a <strong>reconstruction</strong> of a terminal session. The real tool needs Playwright and a live portal login with CAPTCHA and OTP entered by hand.</li>
+          <li>This is a <strong>reconstruction</strong> of a terminal session. The real tool needs Playwright and a live portal login with CAPTCHA and OTP by hand.</li>
           <li>The session expiry is scripted here, but it is a real failure mode and handling it is why the checkpointing exists.</li>
-          <li>Tax collected at source is skipped deliberately &mdash; another scope cut with a reason attached.</li>
+          <li>The smallest of the ten by line count, and among the clearest on operational thinking.</li>
         </ul>
-    <div class="more"><a href="index.html">← All ten demo screens</a></div>
+    <div class="more"><strong>Why the repository is private.</strong> The code itself is <strong>private</strong> &mdash; it was built in a finance role and belongs to that context, so it is not published openly. <strong>Access can be granted on request</strong> for anyone assessing the work.
+      <br /><a href="index.html">← All ten demo screens</a></div>
   </div>
 
 </div>
+<script src="demo.js"></script>
 </body>
 </html>

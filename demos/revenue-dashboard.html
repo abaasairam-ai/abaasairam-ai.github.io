@@ -16,10 +16,9 @@
 <div class="warn">
   <div class="in">
     <b>Demo — not a real screen</b>
-    <p>This page is a <strong>rebuilt copy of the interface</strong>, drawn with the application's own
-       design tokens. It is <strong>not a screenshot</strong> and it is not connected to anything.
-       Every name, identifier, amount and date below was <strong>invented for this page</strong>.
-       No real client, contract, invoice or amount appears anywhere on it. The production system reads live accounting data, and none of that data has been published, shown or exported.</p>
+    <p>A <strong>rebuilt copy of the interface</strong>, drawn with the application's own design
+       tokens. Not a screenshot, and not connected to anything. Every name, identifier, amount and
+       date was <strong>invented for this page</strong>. No real client, contract, invoice or amount appears anywhere on it.</p>
     <a class="back" href="../index.html#work">← Back to the site</a>
   </div>
 </div>
@@ -27,15 +26,15 @@
 <div class="page">
 
   <div class="intro">
-    <h1>Revenue recognition &mdash; schedule and generated journals</h1>
-    <p class="sub">Reads invoices from the accounting system, works out what has actually been earned in the period, and produces the revenue-recognition and bad-debt journal entries. Then it stops: posting back is a separate action a person has to take.</p>
+    <h1>Revenue recognition &mdash; schedule, journals and the startup guard</h1>
+    <p class="sub">Reads invoices from the accounting system, works out what was actually earned in the period, and produces the recognition and bad-debt journal entries. Then it stops: posting back is a separate action a person has to take.</p>
 
     <div class="split">
       <div class="box real">
         <h4>What is real here</h4>
         <ul>
-          <li>The schedule layout, the recognition bases and the journal structure</li>
-          <li>Decimal arithmetic for money on both the Python and JavaScript sides</li>
+          <li>The schedule layout, recognition bases and journal structure</li>
+          <li>Decimal arithmetic for money on both sides of the stack</li>
           <li>The refuse-to-start-without-a-key behaviour</li>
           <li>The explicit-approval-before-posting flow</li>
         </ul>
@@ -43,29 +42,30 @@
       <div class="box fake">
         <h4>What is invented</h4>
         <ul>
-          <li>Every client name &mdash; none of these companies exist</li>
-          <li>All contract references, amounts and percentages</li>
+          <li>Every client name, contract reference and amount</li>
           <li>The journal entry numbers and dates</li>
-          <li>The ageing that triggered the bad-debt provision</li>
+          <li>The ageing that triggered the provision</li>
+          <li>The tenant name shown under Integrations</li>
         </ul>
       </div>
     </div>
   </div>
 
+  <p class="hint-nav">Three screens — use the menu or the tabs to move between them.</p>
+
   <div class="app">
     <aside class="side">
       <div class="logo"><span class="m">R</span>Rev Rec</div>
       <div class="grp">Recognition</div>
-      <a href="#" class="on" onclick="return false"><span class="dot"></span>Schedule</a>
-      <a href="#" onclick="return false"><span class="dot"></span>Journals</a>
+      <a href="#schedule" data-go="schedule" tabindex="0"><span class="dot"></span>Schedule</a>
+      <a href="#journals" data-go="journals" tabindex="0"><span class="dot"></span>Journals</a>
       <a href="#" onclick="return false"><span class="dot"></span>Bad debt</a>
       <div class="grp">Data</div>
       <a href="#" onclick="return false"><span class="dot"></span>Invoices</a>
       <a href="#" onclick="return false"><span class="dot"></span>Contracts</a>
-      <a href="#" onclick="return false"><span class="dot"></span>Clients</a>
       <div class="grp">System</div>
       <a href="#" onclick="return false"><span class="dot"></span>Run history</a>
-      <a href="#" onclick="return false"><span class="dot"></span>Integrations</a>
+      <a href="#integrations" data-go="integrations" tabindex="0"><span class="dot"></span>Integrations</a>
       <div class="foot">Demo build<br />No backend attached</div>
     </aside>
 
@@ -81,18 +81,20 @@
           <span class="btn p">Review &amp; post</span>
         </div>
       </div>
+      <div class="tabs-bar" role="tablist"><button type="button" class="tab" role="tab" data-go="schedule">Schedule</button><button type="button" class="tab" role="tab" data-go="journals">Journals</button><button type="button" class="tab" role="tab" data-go="integrations">Integrations</button></div>
 
       <div class="body">
+        <section class="screen" id="schedule" data-title="Revenue recognition" data-crumb="Recognition / Schedule">
         <div class="stats">
           <div class="stat "><dt>Invoices read</dt><dd>1,842</dd></div>
-          <div class="stat acc"><dt>Recognised this period</dt><dd>&#8377;1.42 Cr</dd></div>
-          <div class="stat "><dt>Deferred carried forward</dt><dd>&#8377;63.8 L</dd></div>
-          <div class="stat bad"><dt>Provisioned bad debt</dt><dd>&#8377;11.2 L</dd></div>
+          <div class="stat acc"><dt>Recognised</dt><dd>&#8377;1.42 Cr</dd></div>
+          <div class="stat "><dt>Deferred</dt><dd>&#8377;63.8 L</dd></div>
+          <div class="stat bad"><dt>Provisioned</dt><dd>&#8377;11.2 L</dd></div>
           <div class="stat good"><dt>Journals ready</dt><dd>214</dd></div>
           <div class="stat warn"><dt>Awaiting approval</dt><dd>214</dd></div>
         </div>
         <div class="note">
-          <span class="tag">Guardrail</span><b>Nothing posts without a click.</b> The engine computes the entries and stops. Posting back to the accounting system is a separate, explicit admin action, and the run is recorded either way. An automated post is a decision made by nobody.
+          <span class="tag">Guardrail</span><b>Nothing posts without a click.</b> The engine computes and stops. Posting back is a separate, explicit admin action, and the run is recorded either way. An automated post is a decision made by nobody.
         </div>
         <div class="sec">Recognition schedule &mdash; Q2 FY 2026-27</div>
         <div class="tw"><p class="swipe">Scroll the table sideways</p><div class="scroll"><table>
@@ -106,9 +108,14 @@
           </tbody>
         </table></div></div>
         <div class="note">
-          <span class="tag">Money</span><b>Decimal arithmetic end to end.</b> Amounts are never held as floating-point numbers, on either the JavaScript or the Python side. A rounding difference here is a decision that was made, not one that happened.
+          <span class="tag">Money</span><b>Decimal arithmetic end to end.</b> Amounts are never floating-point, on either the JavaScript or the Python side. A rounding difference is a decision that was made, not one that happened.
         </div>
-        <div class="sec">Journal entries generated &mdash; awaiting approval</div>
+        </section>
+        <section class="screen" id="journals" data-title="Journal entries" data-crumb="Recognition / Journals">
+        <div class="note">
+          <span class="tag">Balanced before it is offered</span><b>Entries are generated in pairs and checked to zero.</b> An unbalanced journal never reaches the approval screen &mdash; it fails in the engine, where it is cheap to find.
+        </div>
+        <div class="sec">Generated &mdash; awaiting approval</div>
         <div class="tw"><p class="swipe">Scroll the table sideways</p><div class="scroll"><table>
           <thead><tr><th>Entry</th><th>Account</th><th class="num">Debit</th><th class="num">Credit</th><th>Narration</th></tr></thead>
           <tbody>
@@ -119,9 +126,28 @@
           </tbody>
         </table></div></div>
         <div class="note">
-          <span class="tag">Startup</span><b>The application refuses to boot without its encryption key.</b> The accounting-system refresh token is encrypted at rest with AES-256-GCM. If the key is absent the process exits rather than starting in a degraded state &mdash; a control in code, not a line in a README.
+          <span class="tag">Naming</span><b>The tests are named for accounting, not for the framework.</b> obligation engine, write-off recalculation, audit coverage, reconciliation. A failing test tells you which accounting rule broke.
         </div>
-
+        </section>
+        <section class="screen" id="integrations" data-title="Integrations" data-crumb="System / Integrations">
+        <div class="note">
+          <span class="tag">Startup</span><b>The application refuses to boot without its encryption key.</b> The refresh token is encrypted at rest with AES-256-GCM. If the key is absent the process exits rather than starting in a degraded state &mdash; a control in code, not a line in a README.
+        </div>
+        <div class="sec">Connection status</div>
+        <div class="tw"><p class="swipe">Scroll the table sideways</p><div class="scroll"><table>
+          <thead><tr><th>Item</th><th>Value</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>Accounting system</td><td class="mono">org &middot; demo-tenant</td><td><span class="band ok">connected</span></td></tr>
+            <tr><td>Refresh token</td><td class="mono">encrypted at rest &middot; AES-256-GCM</td><td><span class="band ok">present</span></td></tr>
+            <tr><td>Encryption key</td><td class="mono">from environment</td><td><span class="band ok">loaded</span></td></tr>
+            <tr><td>Internal dates</td><td class="mono">UTC — displayed in org timezone</td><td><span class="band ok">ok</span></td></tr>
+            <tr><td>Live process</td><td class="mono">python backend + next frontend</td><td><span class="band info">post-migration</span></td></tr>
+          </tbody>
+        </table></div></div>
+        <div class="note">
+          <span class="tag">Two backends</span><b>There are two, and that is a migration rather than a mess.</b> The Node and Vite pair was replaced by the Python and Next pair. The process config names the live ones. Worth knowing before anyone clones it and runs the wrong scripts.
+        </div>
+        </section>
       </div>
     </div>
   </div>
@@ -130,13 +156,15 @@
   <div class="foot">
     <h4>Reading this honestly</h4>
     <ul>
-          <li>This is a <strong>reconstruction</strong>. The real application needs PostgreSQL and live accounting-system credentials to run.</li>
-          <li>The figures were chosen to show the interesting cases &mdash; straight-line, milestone, metered, and one contract old enough to provision against.</li>
-          <li>The controls described are <strong>as implemented</strong>. Those are the parts worth asking about.</li>
+          <li>This is a <strong>reconstruction</strong>. The real application needs PostgreSQL and live accounting credentials.</li>
+          <li>The contracts were chosen to show the interesting bases — straight-line, milestone, metered, and one old enough to provision against.</li>
+          <li>The controls described are <strong>as implemented</strong>.</li>
         </ul>
-    <div class="more"><a href="index.html">← All ten demo screens</a></div>
+    <div class="more"><strong>Why the repository is private.</strong> The code itself is <strong>private</strong> &mdash; it was built in a finance role and belongs to that context, so it is not published openly. <strong>Access can be granted on request</strong> for anyone assessing the work.
+      <br /><a href="index.html">← All ten demo screens</a></div>
   </div>
 
 </div>
+<script src="demo.js"></script>
 </body>
 </html>
