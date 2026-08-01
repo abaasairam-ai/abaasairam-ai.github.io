@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Demo — Revenue recognition · Sairam Reddy</title>
+<meta name="robots" content="noindex" />
+<meta name="description" content="Rebuilt UI demo of Revenue recognition. All data on this page is invented." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="demo.css" />
+</head>
+<body class="skin-ui">
+
+<div class="warn">
+  <div class="in">
+    <b>Demo — not a real screen</b>
+    <p>This page is a <strong>rebuilt copy of the interface</strong>, drawn with the application's own
+       design tokens. It is <strong>not a screenshot</strong> and it is not connected to anything.
+       Every name, identifier, amount and date below was <strong>invented for this page</strong>.
+       No real client, contract, invoice or amount appears anywhere on it. The production system reads live accounting data, and none of that data has been published, shown or exported.</p>
+    <a class="back" href="../index.html#work">← Back to the site</a>
+  </div>
+</div>
+
+<div class="page">
+
+  <div class="intro">
+    <h1>Revenue recognition &mdash; schedule and generated journals</h1>
+    <p class="sub">Reads invoices from the accounting system, works out what has actually been earned in the period, and produces the revenue-recognition and bad-debt journal entries. Then it stops: posting back is a separate action a person has to take.</p>
+
+    <div class="split">
+      <div class="box real">
+        <h4>What is real here</h4>
+        <ul>
+          <li>The schedule layout, the recognition bases and the journal structure</li>
+          <li>Decimal arithmetic for money on both the Python and JavaScript sides</li>
+          <li>The refuse-to-start-without-a-key behaviour</li>
+          <li>The explicit-approval-before-posting flow</li>
+        </ul>
+      </div>
+      <div class="box fake">
+        <h4>What is invented</h4>
+        <ul>
+          <li>Every client name &mdash; none of these companies exist</li>
+          <li>All contract references, amounts and percentages</li>
+          <li>The journal entry numbers and dates</li>
+          <li>The ageing that triggered the bad-debt provision</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="app">
+    <aside class="side">
+      <div class="logo"><span class="m">R</span>Rev Rec</div>
+      <div class="grp">Recognition</div>
+      <a href="#" class="on" onclick="return false"><span class="dot"></span>Schedule</a>
+      <a href="#" onclick="return false"><span class="dot"></span>Journals</a>
+      <a href="#" onclick="return false"><span class="dot"></span>Bad debt</a>
+      <div class="grp">Data</div>
+      <a href="#" onclick="return false"><span class="dot"></span>Invoices</a>
+      <a href="#" onclick="return false"><span class="dot"></span>Contracts</a>
+      <a href="#" onclick="return false"><span class="dot"></span>Clients</a>
+      <div class="grp">System</div>
+      <a href="#" onclick="return false"><span class="dot"></span>Run history</a>
+      <a href="#" onclick="return false"><span class="dot"></span>Integrations</a>
+      <div class="foot">Demo build<br />No backend attached</div>
+    </aside>
+
+    <div class="main">
+      <div class="top">
+        <div>
+          <div class="crumb">Recognition / Schedule</div>
+          <h2>Revenue recognition</h2>
+        </div>
+        <div class="sp">
+          <span class="btn o">Q2 FY 2026-27</span>
+          <span class="btn s">Recalculate</span>
+          <span class="btn p">Review &amp; post</span>
+        </div>
+      </div>
+
+      <div class="body">
+        <div class="stats">
+          <div class="stat "><dt>Invoices read</dt><dd>1,842</dd></div>
+          <div class="stat acc"><dt>Recognised this period</dt><dd>&#8377;1.42 Cr</dd></div>
+          <div class="stat "><dt>Deferred carried forward</dt><dd>&#8377;63.8 L</dd></div>
+          <div class="stat bad"><dt>Provisioned bad debt</dt><dd>&#8377;11.2 L</dd></div>
+          <div class="stat good"><dt>Journals ready</dt><dd>214</dd></div>
+          <div class="stat warn"><dt>Awaiting approval</dt><dd>214</dd></div>
+        </div>
+        <div class="note">
+          <span class="tag">Guardrail</span><b>Nothing posts without a click.</b> The engine computes the entries and stops. Posting back to the accounting system is a separate, explicit admin action, and the run is recorded either way. An automated post is a decision made by nobody.
+        </div>
+        <div class="sec">Recognition schedule &mdash; Q2 FY 2026-27</div>
+        <div class="tw"><p class="swipe">Scroll the table sideways</p><div class="scroll"><table>
+          <thead><tr><th>Contract</th><th>Client</th><th>Basis</th><th class="num">Invoiced</th><th class="num">Recognised</th><th class="num">Deferred</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">CT-1043</td><td>Northwind Textiles Ltd</td><td>Straight line &middot; 12 mo</td><td class="num">12,00,000.00</td><td class="num">3,00,000.00</td><td class="num">9,00,000.00</td><td><span class="band ok">recognised</span></td></tr>
+            <tr><td class="mono">CT-1057</td><td>Fairhaven Logistics Pvt Ltd</td><td>Milestone &middot; 4 of 6</td><td class="num">8,50,000.00</td><td class="num">5,66,667.00</td><td class="num">2,83,333.00</td><td><span class="band ok">recognised</span></td></tr>
+            <tr><td class="mono">CT-1061</td><td>Blackthorn Media Services</td><td>Usage &middot; metered</td><td class="num">2,40,000.00</td><td class="num">2,40,000.00</td><td class="num">0.00</td><td><span class="band ok">recognised</span></td></tr>
+            <tr><td class="mono">CT-1072</td><td>Cindermill Engineering</td><td>Straight line &middot; 6 mo</td><td class="num">4,80,000.00</td><td class="num">1,60,000.00</td><td class="num">3,20,000.00</td><td><span class="band warn">review</span></td></tr>
+            <tr><td class="mono">CT-1088</td><td>Otterbourne Consulting LLP</td><td>Straight line &middot; 12 mo</td><td class="num">6,00,000.00</td><td class="num">0.00</td><td class="num">6,00,000.00</td><td><span class="band err">provisioned</span></td></tr>
+          </tbody>
+        </table></div></div>
+        <div class="note">
+          <span class="tag">Money</span><b>Decimal arithmetic end to end.</b> Amounts are never held as floating-point numbers, on either the JavaScript or the Python side. A rounding difference here is a decision that was made, not one that happened.
+        </div>
+        <div class="sec">Journal entries generated &mdash; awaiting approval</div>
+        <div class="tw"><p class="swipe">Scroll the table sideways</p><div class="scroll"><table>
+          <thead><tr><th>Entry</th><th>Account</th><th class="num">Debit</th><th class="num">Credit</th><th>Narration</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">JE-2261</td><td>Unearned revenue</td><td class="num">3,00,000.00</td><td class="num">&mdash;</td><td>Recognition &middot; CT-1043 &middot; Q2</td></tr>
+            <tr><td class="mono">JE-2261</td><td>Service revenue</td><td class="num">&mdash;</td><td class="num">3,00,000.00</td><td>Recognition &middot; CT-1043 &middot; Q2</td></tr>
+            <tr><td class="mono">JE-2262</td><td>Bad debt expense</td><td class="num">11,20,000.00</td><td class="num">&mdash;</td><td>Provision &middot; CT-1088 &middot; 180+ days</td></tr>
+            <tr><td class="mono">JE-2262</td><td>Allowance for doubtful debts</td><td class="num">&mdash;</td><td class="num">11,20,000.00</td><td>Provision &middot; CT-1088 &middot; 180+ days</td></tr>
+          </tbody>
+        </table></div></div>
+        <div class="note">
+          <span class="tag">Startup</span><b>The application refuses to boot without its encryption key.</b> The accounting-system refresh token is encrypted at rest with AES-256-GCM. If the key is absent the process exits rather than starting in a degraded state &mdash; a control in code, not a line in a README.
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+  <div class="foot">
+    <h4>Reading this honestly</h4>
+    <ul>
+          <li>This is a <strong>reconstruction</strong>. The real application needs PostgreSQL and live accounting-system credentials to run.</li>
+          <li>The figures were chosen to show the interesting cases &mdash; straight-line, milestone, metered, and one contract old enough to provision against.</li>
+          <li>The controls described are <strong>as implemented</strong>. Those are the parts worth asking about.</li>
+        </ul>
+    <div class="more"><a href="index.html">← All ten demo screens</a></div>
+  </div>
+
+</div>
+</body>
+</html>

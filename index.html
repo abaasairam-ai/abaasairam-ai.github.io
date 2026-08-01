@@ -374,7 +374,7 @@
     <section id="work">
       <div class="shead"><span class="no">03</span><span class="lab">Index of work</span></div>
       <h2>What I've built</h2>
-      <p class="hint">Start broad, go as deep as you like. Every branch ends in something real — a public repo or a tool you can open and use.</p>
+      <p class="hint">Start broad, go as deep as you like. Every branch ends in something real — a public repo, a tool you can open and use, or a production system I can walk you through. The ten under <em>Production systems</em> were built for a finance team and their repos are private; happy to share on request.</p>
       <div class="exp">
         <div class="rail" id="rail"></div>
         <div><div id="crumbs"></div><div id="cards"></div></div>
@@ -615,6 +615,45 @@ var TREE = { t:"What I've built", ic:'ti-hierarchy-2', c:[
         links:[['Repo',R+'income-tax-rag']] } ]}
   ]},
   { t:'Finance tooling', ic:'ti-calculator', cls:'fi', c:[
+    { t:'Production systems', s:'Ten applications built because a finance team needed them — running against Zoho Books, the GST portal and TRACES, not against a tutorial. Each one below says what it was for, how big it is, and what it would be reusable for.', ic:'ti-hierarchy-2', cls:'fi', c:[
+      { t:'All ten screens', s:'Every one of the ten, one screen each, in one place \u2014 with what is real and what was invented named on every page.', ic:'ti-hierarchy-2',
+        links:[['Open the demo index','demos/index.html']] },
+      { t:'Reconciliation suite', s:'The problem: TDS credit claimed in the books has to agree with Form 26AS, and it never does on the first pass. Doing that by hand across 27 deductors and a few thousand rows is a quarterly week — and every row missed is credit quietly lost. This does it in one run and shows its working. Reusable for any two-ledger match where the join key is unreliable.', ic:'ti-arrows-join', cls:'fi', note:'40,700 lines · 235 files · 28 test files · FastAPI + React · private repo', c:[
+        { t:'See the screen', s:'The allocation view, rebuilt with the application\u2019s own design tokens and filled with invented data. Not a screenshot \u2014 the page says so at the top, and says which parts are real.', ic:'ti-player-play',
+          links:[['Open the demo','demos/recon-app.html']] },
+        { t:'Hungarian allocation', s:'Per-TAN allocation solved as an assignment problem, with a greedy fallback above 500 rows. An algorithmic choice with a stated reason, not a library call.', ic:'ti-vector-triangle' },
+        { t:'Confidence-weighted TAN resolution', s:'Three sources ranked \u2014 contacts upload 0.75, DB history 0.70 recent and 0.45 historic, current 26AS 0.35 \u2014 with a +0.30 boost capped at 0.99 when the candidate appears in today\u2019s file. User overrides are stored so they win unconditionally.', ic:'ti-scale' },
+        { t:'26AS parsers, four formats', s:'Raw TRACES output arrives as xls, xlsx, txt or pdf. Each format has its own parser and its own test file.', ic:'ti-files' },
+        { t:'Bundled Claude Code plugin', s:'A working plugin lives inside the app \u2014 plugin.json, an agent definition, two skills and a test. Unpublished so far.', ic:'ti-plug' },
+        { t:'Speed under load', s:'A dedicated timing test and a stress-test script with banked results, so a regression in throughput shows up as a number rather than a complaint.', ic:'ti-chart-dots' } ]},
+      { t:'Revenue recognition', s:'The problem: revenue invoiced is not revenue earned, so someone had to work out each month what had actually been delivered and write the journals for it. This reads the invoices, computes the recognition and bad-debt entries, and posts them back only when an admin clicks. Reusable for any deferred-revenue or accrual schedule.', ic:'ti-report-money', cls:'fi', note:'29,800 lines · 252 files · 23 test files · Python + Next.js · private repo', c:[
+        { t:'See the screen', s:'The recognition schedule and the generated journals, rebuilt with the application’s own design tokens and filled with invented contracts and amounts.', ic:'ti-player-play',
+          links:[['Open the demo','demos/revenue-dashboard.html']] },
+        { t:'No floats for money', s:'Decimal arithmetic on both the JavaScript and Python sides. Rounding is a decision, not an accident of binary representation.', ic:'ti-calculator' },
+        { t:'Refuses to start without the key', s:'The Zoho refresh token is encrypted at rest with AES-256-GCM, and the app will not boot if the key is missing. A guardrail in code, not a warning in a README.', ic:'ti-plug-connected-x' },
+        { t:'A migration, not duplication', s:'Two backends and two frontends exist because the Node/Vite pair was replaced by the Python/Next pair. The process config names the live ones. Worth knowing before anyone asks.', ic:'ti-arrow-right' },
+        { t:'Tests named for the domain', s:'obligation engine, write-off recalculation, audit coverage, reconciliation. The test names describe accounting, not the framework.', ic:'ti-checkup-list' } ]},
+      { t:'Billing API', s:'The problem: subscriptions were being tracked in a JSON file that could not answer who changed what, could not invoice, and had no idea who was allowed to do anything. Rebuilt as a real backend with lifecycle, invoicing, roles and an audit trail. Reusable as the spine of any recurring-billing system.', ic:'ti-file-code', cls:'fi', note:'14,600 lines · 153 files · 13 test files · NestJS + Prisma + Postgres · private repo', c:[
+        { t:'See the screen', s:'The import preview and the request log — including a call refused because nothing permitted it. Rebuilt UI, invented data.', ic:'ti-player-play',
+          links:[['Open the demo','demos/api-layer.html']] },
+        { t:'Money as a string', s:'Serialised as a string over the wire so precision survives JSON. The fix costs nothing and the alternative is silent.', ic:'ti-quote' },
+        { t:'Deny by default', s:'The RBAC guard refuses unless a rule permits, rather than permitting unless a rule refuses, with a seam left for Entra ID.', ic:'ti-shield-check' },
+        { t:'Dry run, then commit', s:'Airtable CSV import previews the change, commits transactionally, and writes an audit trail. Three steps because the middle one can fail.', ic:'ti-checks' },
+        { t:'Migrations as evidence', s:'lifecycle_engine, invoice_engine, invoice_voided_adjustments, revenue_snapshots, invoice_perf_indexes. A history that shows a system evolving under real use.', ic:'ti-list-tree' } ]},
+      { t:'CRM', s:'The problem: clients, deals and engagements lived across several spreadsheets, so nobody could answer what was in the pipeline without rebuilding it by hand. Contacts, deals, documents, invoicing, PDF and Excel export in one place. Reusable for any small professional-services practice.', ic:'ti-table', note:'9,600 lines · 83 files · no tests · Express + SQLite/Postgres · private repo',
+        links:[['See the screen','demos/crm-app.html']] },
+      { t:'Access register', s:'The problem: an auditor asks who has access to which system, and nobody can answer without emailing round. Tracks employees, software and the grants between them, on-machine with no cloud. Reusable as a lightweight access-review record for any small team.', ic:'ti-lock', note:'6,300 lines · 100 files · 12 test files · Next.js + Prisma · private repo',
+        links:[['See the screen','demos/user-access.html']] },
+      { t:'Invoice extractor', s:'The problem: vendor invoice PDFs were re-keyed into the accounting system line by line, which is slow and gets GST rates wrong quietly. Reads the PDF, checks that tax over taxable lands on a legal rate, writes an Excel ready for import — and writes nothing until Export is pressed. Reusable for any structured-document-to-spreadsheet job.', ic:'ti-file-text', note:'4,200 lines · 19 files · 2 test files · Python, ships as a Windows .exe · private repo',
+        links:[['See the screen','demos/invoice-extractor.html']] },
+      { t:'Asset register', s:'The problem: no record of which employee held which laptop, so offboarding was guesswork. Employees register their own device through a public form, admins search and export. Reusable as a self-service register for anything issued to staff.', ic:'ti-cpu', note:'2,700 lines · 61 files · no tests · Next.js 16 + Prisma · private repo',
+        links:[['See the screen','demos/asset-register.html']] },
+      { t:'TDS refund checker', s:'The problem: real money sits in challans with an unused balance, and finding it means checking two government portals TAN by TAN — so nobody ever does. Scrapes the challan list, then checks pending balance in TRACES, and writes an Excel per TAN. Reusable wherever a portal has the answer but no export.', ic:'ti-receipt-tax', note:'2,300 lines · 11 files · no tests · Python + real Chrome · private repo',
+        links:[['See the screen','demos/tds-refund-checker.html']] },
+      { t:'Subscriptions dashboard', s:'The problem: renewals lived in a spreadsheet and were missed. Tracks them with Zoho Books data and locks on the payment deadline. Kept deliberately \u2014 it is what the Billing API was before the rebuild, and the pair together is the more honest artefact than either alone.', ic:'ti-arrows-shuffle', note:'2,100 lines · 43 files · no tests · Express + vanilla JS · private repo',
+        links:[['See the screen','demos/subscriptions-app.html']] },
+      { t:'GST portal consolidator', s:'The problem: the GST TDS/TCS credit page shows one month at a time, so a financial year is twelve manual downloads and a year of history is unthinkable. Walks the months, checkpoints after each one so a failure resumes instead of restarting, and writes a consolidated workbook. Reusable as a pattern for any long, fragile scraping run.', ic:'ti-arrows-left-right', note:'1,500 lines · 11 files · no tests · Python + Playwright · private repo',
+        links:[['See the screen','demos/gst-tds-consolidator.html']] } ]},
     { t:'GST', ic:'ti-receipt-tax', cls:'fi', c:[
       { t:'GSTR-1 Generator', s:'Marketplace TCS Excel exports to portal-ready JSON. One click instead of re-keying.', ic:'ti-file-code',
         note:'Not published' } ]},

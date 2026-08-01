@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Demo — Asset register · Sairam Reddy</title>
+<meta name="robots" content="noindex" />
+<meta name="description" content="Rebuilt UI demo of Asset register. All data on this page is invented." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="demo.css" />
+</head>
+<body class="skin-green">
+
+<div class="warn">
+  <div class="in">
+    <b>Demo — not a real screen</b>
+    <p>This page is a <strong>rebuilt copy of the interface</strong>, drawn with the application's own
+       design tokens. It is <strong>not a screenshot</strong> and it is not connected to anything.
+       Every name, identifier, amount and date below was <strong>invented for this page</strong>.
+       No real employee, device or serial number appears anywhere on it. The serials shown are marked DEMO.</p>
+    <a class="back" href="../index.html#work">← Back to the site</a>
+  </div>
+</div>
+
+<div class="page">
+
+  <div class="intro">
+    <h1>Asset register &mdash; public form, admin view</h1>
+    <p class="sub">A record of which employee holds which device, so offboarding stops being guesswork. Employees self-register through a public form; admins search, edit and export behind a sign-in. Runs fully offline.</p>
+
+    <div class="split">
+      <div class="box real">
+        <h4>What is real here</h4>
+        <ul>
+          <li>The two-sided design &mdash; public registration, authenticated admin</li>
+          <li>The form fields and the admin table columns</li>
+          <li>Excel and CSV export, and the dashboard breakdown</li>
+          <li>That it runs entirely offline against a local database</li>
+        </ul>
+      </div>
+      <div class="box fake">
+        <h4>What is invented</h4>
+        <ul>
+          <li>All employee initials, device serials and models</li>
+          <li>Every count and date</li>
+          <li>The three unreturned devices</li>
+          <li>The department names</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="app">
+    <aside class="side">
+      <div class="logo"><span class="m">A</span>Asset Register</div>
+      <div class="grp">Register</div>
+      <a href="#" onclick="return false"><span class="dot"></span>Dashboard</a>
+      <a href="#" class="on" onclick="return false"><span class="dot"></span>Assets</a>
+      <a href="#" onclick="return false"><span class="dot"></span>Submit</a>
+      <div class="grp">Admin</div>
+      <a href="#" onclick="return false"><span class="dot"></span>Administrators</a>
+      <a href="#" onclick="return false"><span class="dot"></span>Export</a>
+      <div class="grp">System</div>
+      <a href="#" onclick="return false"><span class="dot"></span>Settings</a>
+      <div class="foot">Demo build<br />No backend attached</div>
+    </aside>
+
+    <div class="main">
+      <div class="top">
+        <div>
+          <div class="crumb">Register / Assets</div>
+          <h2>Registered devices</h2>
+        </div>
+        <div class="sp">
+          <span class="btn o">All types</span>
+          <span class="btn s">Export CSV</span>
+          <span class="btn a">Add device</span>
+        </div>
+      </div>
+
+      <div class="body">
+        <div class="stats">
+          <div class="stat "><dt>Devices registered</dt><dd>118</dd></div>
+          <div class="stat acc"><dt>Laptops</dt><dd>74</dd></div>
+          <div class="stat "><dt>Phones</dt><dd>31</dd></div>
+          <div class="stat warn"><dt>Unassigned</dt><dd>7</dd></div>
+          <div class="stat bad"><dt>Not returned by leavers</dt><dd>3</dd></div>
+        </div>
+        <div class="note">
+          <span class="tag">Why a public form</span><b>The person holding the device is the one who knows the serial number.</b> Asking them directly, with no login in the way, is the difference between a register that is filled in and one that is not.
+        </div>
+        <div class="sec">Registration form &mdash; public</div>
+        <p style="color:var(--muted);margin-bottom:14px;max-width:70ch">The public side: an employee
+        registers the device they were issued. No login, no ticket, no chasing. The admin side is behind
+        a sign-in.</p>
+        <div class="form two">
+          <div class="field"><label>Employee name</label><div class="inp">A. Rao</div></div>
+          <div class="field"><label>Employee ID</label><div class="inp mono">EMP-0142</div></div>
+          <div class="field"><label>Department</label><div class="inp">Finance</div></div>
+          <div class="field"><label>Device type</label><div class="inp">Laptop</div></div>
+          <div class="field"><label>Make and model</label><div class="inp">Generic Ultrabook 14</div></div>
+          <div class="field"><label>Serial number</label><div class="inp mono">SN-DEMO-00417</div></div>
+          <div class="field"><label>Issued on</label><div class="inp mono">04 Feb 2026</div></div>
+          <div class="field"><label>Condition</label><div class="inp">Good</div></div>
+        </div>
+        <div class="sec">Admin view &mdash; registered devices</div>
+        <div class="tw"><p class="swipe">Scroll the table sideways</p><div class="scroll"><table>
+          <thead><tr><th>Serial</th><th>Type</th><th>Make and model</th><th>Assigned to</th><th>Department</th><th>Issued</th><th>Condition</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">SN-DEMO-00417</td><td>Laptop</td><td>Generic Ultrabook 14</td><td>A. Rao</td><td>Finance</td><td class="mono">04 Feb 2026</td><td><span class="band ok">good</span></td></tr>
+            <tr><td class="mono">SN-DEMO-00418</td><td>Laptop</td><td>Generic Ultrabook 14</td><td>M. Iyer</td><td>Finance</td><td class="mono">19 Mar 2026</td><td><span class="band ok">good</span></td></tr>
+            <tr><td class="mono">SN-DEMO-00402</td><td>Laptop</td><td>Generic Notebook 15</td><td>S. Nair</td><td>Operations</td><td class="mono">08 Jan 2026</td><td><span class="band err">not returned</span></td></tr>
+            <tr><td class="mono">SN-DEMO-00311</td><td>Phone</td><td>Generic Handset A</td><td>K. Menon</td><td>Sales</td><td class="mono">27 Apr 2026</td><td><span class="band warn">damaged</span></td></tr>
+            <tr><td class="mono">SN-DEMO-00520</td><td>Monitor</td><td>Generic Display 24</td><td>&mdash;</td><td>&mdash;</td><td class="mono">&mdash;</td><td><span class="band">unassigned</span></td></tr>
+          </tbody>
+        </table></div></div>
+
+      </div>
+    </div>
+  </div>
+
+
+  <div class="foot">
+    <h4>Reading this honestly</h4>
+    <ul>
+          <li>This is a <strong>reconstruction</strong>. The real application is a Next.js 16 app needing a migration and a seed before it runs.</li>
+          <li>Serial numbers are deliberately written as <span class="mono">SN-DEMO-&hellip;</span> so they cannot be mistaken for real ones.</li>
+          <li>This is the smallest application in the set and has no tests &mdash; worth knowing before judging it against the others.</li>
+        </ul>
+    <div class="more"><a href="index.html">← All ten demo screens</a></div>
+  </div>
+
+</div>
+</body>
+</html>

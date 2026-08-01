@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Demo — CRM · Sairam Reddy</title>
+<meta name="robots" content="noindex" />
+<meta name="description" content="Rebuilt UI demo of CRM. All data on this page is invented." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="demo.css" />
+</head>
+<body class="skin-slate">
+
+<div class="warn">
+  <div class="in">
+    <b>Demo — not a real screen</b>
+    <p>This page is a <strong>rebuilt copy of the interface</strong>, drawn with the application's own
+       design tokens. It is <strong>not a screenshot</strong> and it is not connected to anything.
+       Every name, identifier, amount and date below was <strong>invented for this page</strong>.
+       No real client, deal, invoice or contact appears anywhere on it.</p>
+    <a class="back" href="../index.html#work">← Back to the site</a>
+  </div>
+</div>
+
+<div class="page">
+
+  <div class="intro">
+    <h1>CRM &mdash; pipeline and invoicing</h1>
+    <p class="sub">Client, deal and engagement tracking for a professional-services practice: contacts, pipeline, documents, invoicing with PDF generation, and Excel export.</p>
+
+    <div class="split">
+      <div class="box real">
+        <h4>What is real here</h4>
+        <ul>
+          <li>The pipeline stages, deal fields and invoice states</li>
+          <li>The invoicing model with tax split and part payment</li>
+          <li>PDF generation and Excel export</li>
+          <li>That there are no tests &mdash; stated, not hidden</li>
+        </ul>
+      </div>
+      <div class="box fake">
+        <h4>What is invented</h4>
+        <ul>
+          <li>Every client name, deal and amount</li>
+          <li>All invoice numbers, dates and balances</li>
+          <li>The pipeline probabilities and close dates</li>
+          <li>The relationship-manager assignments</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="app">
+    <aside class="side">
+      <div class="logo"><span class="m">C</span>CRM</div>
+      <div class="grp">Sales</div>
+      <a href="#" onclick="return false"><span class="dot"></span>Dashboard</a>
+      <a href="#" class="on" onclick="return false"><span class="dot"></span>Deals</a>
+      <a href="#" onclick="return false"><span class="dot"></span>Leads</a>
+      <a href="#" onclick="return false"><span class="dot"></span>Quotes</a>
+      <div class="grp">Clients</div>
+      <a href="#" onclick="return false"><span class="dot"></span>Clients</a>
+      <a href="#" onclick="return false"><span class="dot"></span>Contacts</a>
+      <div class="grp">Finance</div>
+      <a href="#" onclick="return false"><span class="dot"></span>Invoices</a>
+      <a href="#" onclick="return false"><span class="dot"></span>Calendar</a>
+      <div class="foot">Demo build<br />No backend attached</div>
+    </aside>
+
+    <div class="main">
+      <div class="top">
+        <div>
+          <div class="crumb">Sales / Deals</div>
+          <h2>Pipeline</h2>
+        </div>
+        <div class="sp">
+          <span class="btn o">This quarter</span>
+          <span class="btn s">Export</span>
+          <span class="btn a">New deal</span>
+        </div>
+      </div>
+
+      <div class="body">
+        <div class="stats">
+          <div class="stat "><dt>Clients</dt><dd>48</dd></div>
+          <div class="stat acc"><dt>Open deals</dt><dd>17</dd></div>
+          <div class="stat "><dt>Pipeline value</dt><dd>&#8377;41.2 L</dd></div>
+          <div class="stat good"><dt>Won this quarter</dt><dd>9</dd></div>
+          <div class="stat bad"><dt>Overdue invoices</dt><dd>5</dd></div>
+          <div class="stat warn"><dt>Tasks due today</dt><dd>4</dd></div>
+        </div>
+        <div class="note">
+          <span class="tag">The problem it replaced</span><b>Three spreadsheets and a shared inbox.</b> Nobody could say what was in the pipeline without rebuilding the answer by hand, and two people rebuilding it got two different numbers.
+        </div>
+        <div class="sec">Pipeline</div>
+        <div class="tw"><p class="swipe">Scroll the table sideways</p><div class="scroll"><table>
+          <thead><tr><th>Deal</th><th>Client</th><th>Stage</th><th class="num">Value</th><th class="num">Probability</th><th>Expected close</th><th>Owner</th></tr></thead>
+          <tbody>
+            <tr><td>Annual tax filing package</td><td>Northwind Textiles Ltd</td><td><span class="band info">qualified</span></td><td class="num">2,50,000.00</td><td class="num">25%</td><td class="mono">30 Sep 2026</td><td>RM&nbsp;1</td></tr>
+            <tr><td>GST compliance setup</td><td>Fairhaven Logistics Pvt Ltd</td><td><span class="band info">proposal</span></td><td class="num">1,80,000.00</td><td class="num">50%</td><td class="mono">15 Aug 2026</td><td>RM&nbsp;1</td></tr>
+            <tr><td>Payroll processing contract</td><td>Blackthorn Media Services</td><td><span class="band">new</span></td><td class="num">5,00,000.00</td><td class="num">10%</td><td class="mono">01 Oct 2026</td><td>RM&nbsp;2</td></tr>
+            <tr><td>Internal audit FY26</td><td>Cindermill Engineering</td><td><span class="band warn">negotiation</span></td><td class="num">7,50,000.00</td><td class="num">75%</td><td class="mono">30 Aug 2026</td><td>RM&nbsp;3</td></tr>
+            <tr><td>Business advisory retainer</td><td>Otterbourne Consulting LLP</td><td><span class="band info">qualified</span></td><td class="num">3,00,000.00</td><td class="num">30%</td><td class="mono">01 Nov 2026</td><td>RM&nbsp;2</td></tr>
+          </tbody>
+        </table></div></div>
+        <div class="sec">Invoices</div>
+        <div class="tw"><p class="swipe">Scroll the table sideways</p><div class="scroll"><table>
+          <thead><tr><th>Invoice</th><th>Client</th><th>Issued</th><th>Due</th><th class="num">Total</th><th class="num">Paid</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">INV-0001</td><td>Northwind Textiles Ltd</td><td class="mono">01 Mar 2026</td><td class="mono">31 Mar 2026</td><td class="num">1,18,000.00</td><td class="num">1,18,000.00</td><td><span class="band ok">paid</span></td></tr>
+            <tr><td class="mono">INV-0002</td><td>Fairhaven Logistics Pvt Ltd</td><td class="mono">15 Mar 2026</td><td class="mono">15 Apr 2026</td><td class="num">88,500.00</td><td class="num">50,000.00</td><td><span class="band warn">partial</span></td></tr>
+            <tr><td class="mono">INV-0003</td><td>Blackthorn Media Services</td><td class="mono">01 Apr 2026</td><td class="mono">10 Apr 2026</td><td class="num">2,36,000.00</td><td class="num">0.00</td><td><span class="band err">overdue</span></td></tr>
+          </tbody>
+        </table></div></div>
+        <div class="note">
+          <span class="tag">The honest gap</span><b>This application has no test suite.</b> 9,600 lines and zero tests. It is included because leaving it out would be a curated portfolio rather than an accurate one, and its README says the same thing.
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+  <div class="foot">
+    <h4>Reading this honestly</h4>
+    <ul>
+          <li>This is a <strong>reconstruction</strong>. The real application needs a database and mail credentials for its email features.</li>
+          <li>The invoices were chosen to show the three states that matter: settled, part-paid and overdue.</li>
+          <li>This is the weakest application in the set on engineering discipline, and the strongest on breadth. Both are true.</li>
+        </ul>
+    <div class="more"><a href="index.html">← All ten demo screens</a></div>
+  </div>
+
+</div>
+</body>
+</html>

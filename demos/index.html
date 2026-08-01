@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Demo screens — ten production systems · Sairam Reddy</title>
+<meta name="robots" content="noindex" />
+<meta name="description" content="Rebuilt interface demos for ten finance systems. All data on these pages is invented." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="demo.css" />
+<style>
+  .grid{display:grid;gap:12px;margin-top:18px}
+  @media(min-width:700px){.grid{grid-template-columns:1fr 1fr}}
+  a.item{display:block;background:#fff;border:1px solid var(--line-2);border-radius:var(--r-card);
+         padding:15px 17px;text-decoration:none;color:var(--fg);transition:border-color .15s,transform .15s}
+  a.item:hover{border-color:var(--fg);transform:translateY(-2px)}
+  a.item .n{font-family:var(--f-display);font-weight:600;font-size:15px;display:flex;
+            align-items:baseline;gap:8px;flex-wrap:wrap}
+  a.item .n span.r{font-family:var(--mono);font-size:10.5px;color:var(--faint);font-weight:400}
+  a.item .d{color:var(--muted);font-size:12.5px;margin-top:5px}
+  a.item .m{font-family:var(--mono);font-size:10.5px;color:var(--faint);margin-top:8px;
+            padding-top:8px;border-top:1px solid var(--line)}
+</style>
+</head>
+<body class="skin-ui">
+
+<div class="warn">
+  <div class="in">
+    <b>Demos — not real screens</b>
+    <p>Every page linked below is a <strong>rebuilt copy of an interface</strong>, drawn with that
+       application's own design tokens. Each one is a rebuild and <strong>not a screenshot</strong>,
+       and none is connected to anything. <strong>All data on them is invented</strong> — no real client, vendor, employee,
+       tax identifier or amount appears anywhere. The production systems run against live
+       accounting, GST-portal and TRACES data, and none of that data has been published or exported.</p>
+    <a class="back" href="../index.html#work">← Back to the site</a>
+  </div>
+</div>
+
+<div class="page">
+  <div class="intro">
+    <h1>Ten production systems, one screen each</h1>
+    <p class="sub">These were built because a finance team needed them, not as portfolio pieces. The
+      repositories are private; these pages exist so the interfaces and the reasoning can be looked
+      at without exposing the data the real systems handle. Each page says which parts are real and
+      which were invented for it.</p>
+
+    <div class="grid">
+
+      <a class="item" href="recon-app.html">
+        <div class="n">Reconciliation suite <span class="r">recon-app</span></div>
+        <div class="d">Books against Form 26AS across 27 deductors. Per-TAN allocation solved as an
+          assignment problem, deductor identity resolved by confidence-weighted ranking.</div>
+        <div class="m">40,700 lines · 28 test files · FastAPI + React</div>
+      </a>
+
+      <a class="item" href="revenue-dashboard.html">
+        <div class="n">Revenue recognition <span class="r">revenue-dashboard</span></div>
+        <div class="d">Works out what was actually earned in the period and writes the journals.
+          Posts back only when someone clicks.</div>
+        <div class="m">29,800 lines · 23 test files · Python + Next.js</div>
+      </a>
+
+      <a class="item" href="api-layer.html">
+        <div class="n">Billing API <span class="r">api-layer</span></div>
+        <div class="d">Subscription lifecycle and invoicing. Deny-by-default authorisation, money as
+          a string, imports that preview before they commit.</div>
+        <div class="m">14,600 lines · 13 test files · NestJS + Prisma</div>
+      </a>
+
+      <a class="item" href="crm-app.html">
+        <div class="n">CRM <span class="r">crm-app</span></div>
+        <div class="d">Pipeline, contacts and invoicing for a professional-services practice.
+          Broad, and honestly untested.</div>
+        <div class="m">9,600 lines · no tests · Express + SQLite/Postgres</div>
+      </a>
+
+      <a class="item" href="user-access.html">
+        <div class="n">Access register <span class="r">user-access</span></div>
+        <div class="d">Who has access to what, answered before anyone asks. Surfaces leavers with
+          grants still open.</div>
+        <div class="m">6,300 lines · 12 test files · Next.js + Prisma</div>
+      </a>
+
+      <a class="item" href="invoice-extractor.html">
+        <div class="n">Invoice extractor <span class="r">invoice-extractor</span></div>
+        <div class="d">Vendor invoice PDF to checked Excel. Validates the GST rate and the GSTIN
+          checksum, and writes nothing until Export.</div>
+        <div class="m">4,200 lines · ships as a Windows .exe</div>
+      </a>
+
+      <a class="item" href="asset-register.html">
+        <div class="n">Asset register <span class="r">asset-register</span></div>
+        <div class="d">Employees register their own device through a public form; admins search and
+          export behind a sign-in.</div>
+        <div class="m">2,700 lines · no tests · Next.js 16 + Prisma</div>
+      </a>
+
+      <a class="item" href="tds-refund-checker.html">
+        <div class="n">TDS refund checker <span class="r">tds-refund-checker</span></div>
+        <div class="d">Finds cash sitting in unused challans across two government portals. Drives
+          real Chrome because they block automation.</div>
+        <div class="m">2,300 lines · Python + real Chrome</div>
+      </a>
+
+      <a class="item" href="subscriptions-app.html">
+        <div class="n">Subscriptions dashboard <span class="r">subscriptions-app</span></div>
+        <div class="d">Renewal tracking with a payment-deadline auto-lock. Kept as the earlier
+          version of what the Billing API became.</div>
+        <div class="m">2,100 lines · Express + vanilla JS</div>
+      </a>
+
+      <a class="item" href="gst-tds-consolidator.html">
+        <div class="n">GST portal consolidator <span class="r">gst-tds-consolidator</span></div>
+        <div class="d">Twelve months of a portal that shows one at a time. Checkpoints each month so
+          a logout resumes instead of restarting.</div>
+        <div class="m">1,500 lines · Python + Playwright</div>
+      </a>
+
+    </div>
+  </div>
+
+  <div class="foot">
+    <h4>Why rebuilt screens rather than screenshots</h4>
+    <ul>
+      <li>A screenshot taken from a running instance contains real client names, tax identifiers and
+          amounts — <strong>baked into pixels, where they cannot be searched for or scrubbed</strong>.</li>
+      <li>These pages had no real data in them to begin with, so there is nothing to leak. Each one
+          names what is real (the layout, the columns, the logic, the controls) and what was invented
+          (every name, identifier, amount and date).</li>
+      <li>Identifiers follow the same dummy conventions as the scrubbed code — placeholder client
+          codes and the <span class="mono">AAAA00001A</span> tax-identifier pattern — so nothing here
+          can be mistaken for the real thing.</li>
+    </ul>
+  </div>
+</div>
+</body>
+</html>

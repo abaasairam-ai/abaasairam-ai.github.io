@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Demo — Subscription and billing API · Sairam Reddy</title>
+<meta name="robots" content="noindex" />
+<meta name="description" content="Rebuilt UI demo of Subscription and billing API. All data on this page is invented." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="demo.css" />
+</head>
+<body class="skin-ui">
+
+<div class="warn">
+  <div class="in">
+    <b>Demo — not a real screen</b>
+    <p>This page is a <strong>rebuilt copy of the interface</strong>, drawn with the application's own
+       design tokens. It is <strong>not a screenshot</strong> and it is not connected to anything.
+       Every name, identifier, amount and date below was <strong>invented for this page</strong>.
+       No real client, subscription, invoice or amount appears anywhere on it.</p>
+    <a class="back" href="../index.html#work">← Back to the site</a>
+  </div>
+</div>
+
+<div class="page">
+
+  <div class="intro">
+    <h1>Billing API &mdash; import preview and request log</h1>
+    <p class="sub">The backend behind subscription lifecycle, invoicing and client data. This screen shows the two things worth seeing: a bulk import that previews before it commits, and a request log where an unauthorised call is refused because nothing explicitly allowed it.</p>
+
+    <div class="split">
+      <div class="box real">
+        <h4>What is real here</h4>
+        <ul>
+          <li>The endpoint shapes, the /v1 versioning and the response codes</li>
+          <li>Money serialised as a string to preserve precision</li>
+          <li>Deny-by-default authorisation &mdash; the 403 is the intended behaviour</li>
+          <li>The dry-run then transactional-commit import flow</li>
+        </ul>
+      </div>
+      <div class="box fake">
+        <h4>What is invented</h4>
+        <ul>
+          <li>Every client name, plan and amount</li>
+          <li>The row counts and rejection reasons</li>
+          <li>The client identifier in the DELETE call</li>
+          <li>All timestamps and record counts</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="app">
+    <aside class="side">
+      <div class="logo"><span class="m">B</span>Billing API</div>
+      <div class="grp">Billing</div>
+      <a href="#" onclick="return false"><span class="dot"></span>Subscriptions</a>
+      <a href="#" onclick="return false"><span class="dot"></span>Invoices</a>
+      <a href="#" class="on" onclick="return false"><span class="dot"></span>Imports</a>
+      <div class="grp">Data</div>
+      <a href="#" onclick="return false"><span class="dot"></span>Clients</a>
+      <a href="#" onclick="return false"><span class="dot"></span>Plans</a>
+      <div class="grp">System</div>
+      <a href="#" onclick="return false"><span class="dot"></span>Audit trail</a>
+      <a href="#" onclick="return false"><span class="dot"></span>Roles</a>
+      <a href="#" onclick="return false"><span class="dot"></span>API reference</a>
+      <div class="foot">Demo build<br />No backend attached</div>
+    </aside>
+
+    <div class="main">
+      <div class="top">
+        <div>
+          <div class="crumb">Imports / Preview</div>
+          <h2>Bulk import &mdash; dry run</h2>
+        </div>
+        <div class="sp">
+          <span class="btn o">subscriptions.csv</span>
+          <span class="btn s">Discard</span>
+          <span class="btn p">Commit 1,167 rows</span>
+        </div>
+      </div>
+
+      <div class="body">
+        <div class="stats">
+          <div class="stat "><dt>Active subscriptions</dt><dd>486</dd></div>
+          <div class="stat acc"><dt>Invoiced this month</dt><dd>&#8377;38.4 L</dd></div>
+          <div class="stat good"><dt>Collected</dt><dd>&#8377;31.9 L</dd></div>
+          <div class="stat bad"><dt>Overdue</dt><dd>&#8377;6.5 L</dd></div>
+          <div class="stat "><dt>Import rows staged</dt><dd>1,204</dd></div>
+          <div class="stat warn"><dt>Rejected by validation</dt><dd>37</dd></div>
+        </div>
+        <div class="note">
+          <span class="tag">Import</span><b>Dry run first, then a transaction.</b> A bulk import previews every row and what it would change. Only on confirmation does it commit &mdash; in one transaction, with an audit row written. A half-applied import is worse than no import, so the design makes it impossible.
+        </div>
+        <div class="sec">Import preview &mdash; subscriptions.csv &middot; not yet committed</div>
+        <div class="tw"><p class="swipe">Scroll the table sideways</p><div class="scroll"><table>
+          <thead><tr><th>Row</th><th>Client</th><th>Plan</th><th class="num">Amount</th><th>Action</th><th>Validation</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">1</td><td>Northwind Textiles Ltd</td><td>Annual &middot; Standard</td><td class="num">1,20,000.00</td><td><span class="band info">create</span></td><td><span class="band ok">ok</span></td></tr>
+            <tr><td class="mono">2</td><td>Fairhaven Logistics Pvt Ltd</td><td>Annual &middot; Premium</td><td class="num">2,40,000.00</td><td><span class="band info">update</span></td><td><span class="band ok">ok</span></td></tr>
+            <tr><td class="mono">3</td><td>Blackthorn Media Services</td><td>Monthly &middot; Standard</td><td class="num">10,000.00</td><td><span class="band info">create</span></td><td><span class="band warn">plan renamed</span></td></tr>
+            <tr><td class="mono">4</td><td>Cindermill Engineering</td><td>Annual &middot; Standard</td><td class="num">1,20,000.00</td><td><span class="band">skip</span></td><td><span class="band err">duplicate of row 1</span></td></tr>
+            <tr><td class="mono">5</td><td>Otterbourne Consulting LLP</td><td>&mdash;</td><td class="num">0.00</td><td><span class="band">skip</span></td><td><span class="band err">plan not found</span></td></tr>
+          </tbody>
+        </table></div></div>
+        <div class="note">
+          <span class="tag">Precision</span><b>Money crosses the wire as a string.</b> <span class="mono">"1,20,000.00"</span>, not <span class="mono">120000</span>. JSON numbers are doubles, and a billing system that quietly loses the last paisa loses it everywhere at once. Serialising as a string costs nothing.
+        </div>
+        <div class="sec">Recent API calls</div>
+        <div class="tw"><p class="swipe">Scroll the table sideways</p><div class="scroll"><table>
+          <thead><tr><th>Method</th><th>Endpoint</th><th>Role</th><th class="num">Status</th><th>Note</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">GET</td><td class="mono">/v1/subscriptions?status=active</td><td>finance</td><td class="num"><span class="band ok">200</span></td><td>486 records, paged</td></tr>
+            <tr><td class="mono">POST</td><td class="mono">/v1/invoices/generate</td><td>finance</td><td class="num"><span class="band ok">201</span></td><td>214 invoices, one transaction</td></tr>
+            <tr><td class="mono">POST</td><td class="mono">/v1/imports/dry-run</td><td>admin</td><td class="num"><span class="band ok">200</span></td><td>1,204 rows staged, 37 rejected</td></tr>
+            <tr><td class="mono">DELETE</td><td class="mono">/v1/clients/ac-1043</td><td>viewer</td><td class="num"><span class="band err">403</span></td><td>no rule permits it &mdash; denied by default</td></tr>
+            <tr><td class="mono">GET</td><td class="mono">/v1/audit?entity=invoice</td><td>admin</td><td class="num"><span class="band ok">200</span></td><td>full change history</td></tr>
+          </tbody>
+        </table></div></div>
+        <div class="note">
+          <span class="tag">Authorisation</span><b>The 403 above is the design, not a bug.</b> The guard refuses unless a rule permits, rather than permitting unless a rule refuses. Adding an endpoint without adding a rule makes it inaccessible &mdash; which is the failure you want.
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+  <div class="foot">
+    <h4>Reading this honestly</h4>
+    <ul>
+          <li>This is a <strong>reconstruction</strong>. The real service needs PostgreSQL with its migrations applied, and an identity provider for the role seam.</li>
+          <li>The import rows were chosen to show the validation outcomes that matter: clean, changed, duplicate and unresolvable.</li>
+          <li>The twelve database migrations behind this are named for what they did &mdash; that history is the evidence it grew under real use.</li>
+        </ul>
+    <div class="more"><a href="index.html">← All ten demo screens</a></div>
+  </div>
+
+</div>
+</body>
+</html>

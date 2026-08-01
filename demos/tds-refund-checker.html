@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Demo — TDS refund checker · Sairam Reddy</title>
+<meta name="robots" content="noindex" />
+<meta name="description" content="Rebuilt UI demo of TDS refund checker. All data on this page is invented." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="demo.css" />
+</head>
+<body class="skin-term">
+
+<div class="warn">
+  <div class="in">
+    <b>Demo — not a real screen</b>
+    <p>This page is a <strong>rebuilt copy of the interface</strong>, drawn with the application's own
+       design tokens. It is <strong>not a screenshot</strong> and it is not connected to anything.
+       Every name, identifier, amount and date below was <strong>invented for this page</strong>.
+       No real TAN, challan or amount appears anywhere on it. The TAN shown follows the dummy AAAA00001A pattern used throughout the scrubbed code.</p>
+    <a class="back" href="../index.html#work">← Back to the site</a>
+  </div>
+</div>
+
+<div class="page">
+
+  <div class="intro">
+    <h1>TDS refund checker &mdash; finding money in unused challans</h1>
+    <p class="sub">Reads every TDS challan for a deductor from the income-tax portal, then checks how much of each remains unclaimed in TRACES. What comes out is a per-TAN Excel file and a number that is worth reclaiming.</p>
+
+    <div class="split">
+      <div class="box real">
+        <h4>What is real here</h4>
+        <ul>
+          <li>Every line of console output &mdash; taken from the source</li>
+          <li>The two-phase design, e-portal then TRACES</li>
+          <li>Driving real Chrome because the portal blocks automation</li>
+          <li>The per-TAN output filename, so runs cannot overwrite each other</li>
+        </ul>
+      </div>
+      <div class="box fake">
+        <h4>What is invented</h4>
+        <ul>
+          <li>The TAN, all challan numbers, dates and amounts</li>
+          <li>The BSR code</li>
+          <li>Every total shown</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="app nosidebar">
+    <div class="main">
+      <div class="top"><div><div class="crumb">Console</div><h2>run_phase1.bat</h2></div><div class="sp"><span class="btn o">TAN AAAA00019A</span><span class="btn s">Phase 1</span><span class="btn p">Run phase 2</span></div></div>
+      <div class="body">
+        <div class="stats">
+          <div class="stat "><dt>Challans read</dt><dd>5</dd></div>
+          <div class="stat acc"><dt>Deposited</dt><dd>&#8377;1,28,820</dd></div>
+          <div class="stat "><dt>Fully claimed</dt><dd>2</dd></div>
+          <div class="stat good"><dt>Recoverable</dt><dd>&#8377;60,750</dd></div>
+          <div class="stat "><dt>TANs to check</dt><dd>27</dd></div>
+        </div>
+        <div class="note">
+          <span class="tag">The problem</span><b>Money nobody has time to look for.</b> A challan with an unused balance is cash already paid to the government and never claimed back. Finding it means checking two portals, TAN by TAN &mdash; a task that never reaches the top of anyone&#39;s list.
+        </div>
+        <div class="sec">Phase 1 &mdash; challans from the e-portal</div>
+        <div class="term">
+          <div class="bar"><i></i><i></i><i></i>&nbsp;Command Prompt &mdash; run_phase1.bat</div>
+          <pre><span class="w">  ============================================================</span>
+<span class="w">  PHASE 1 - Read all TDS challans</span>
+<span class="w">  ============================================================</span>
+  Date range: 01/01/2020  -&gt;  01/08/2026
+
+<span class="b">&gt;&gt;&gt; A Chrome window is open on the Income-Tax portal.</span>
+<span class="b">&gt;&gt;&gt; Just LOG IN (TAN + password + OTP) and reach the dashboard.</span>
+<span class="b">&gt;&gt;&gt; Nothing else to do - I continue automatically once you&#39;re in.</span>
+
+<span class="g">&gt;&gt;&gt; Login detected.</span>
+<span class="g">&gt;&gt;&gt; Logged in as AAAA00019A.</span>
+
+   <span class="d">#  BSR      Challan Date        Deposited      Claimed    Pending</span>
+    1  <span class="mono">0510308</span>  00021   14/07/2025      42,500.00    42,500.00       <span class="d">0.00</span>
+    2  <span class="mono">0510308</span>  00044   21/08/2025      18,000.00    12,000.00   <span class="y">6,000.00</span>
+    3  <span class="mono">0510308</span>  00071   09/10/2025      31,250.00     0.00       <span class="y">31,250.00</span>
+    4  <span class="mono">0510308</span>  00092   17/01/2026       9,450.00     9,450.00       <span class="d">0.00</span>
+    5  <span class="mono">0510308</span>  00118   03/04/2026      27,620.00     4,120.00   <span class="y">23,500.00</span>
+
+  RESULT: <span class="b">5 challan(s)</span> in 01/01/2020 .. 01/08/2026
+  TOTAL deposited amount : Rs. <span class="b">1,28,820.00</span>
+  <span class="g">TOTAL pending balance  : Rs. 60,750.00</span>
+  Excel saved to         : <span class="b">out\\challans_AAAA00019A.xlsx</span></pre>
+        </div>
+        <div class="note">
+          <span class="tag">Automation limit</span><b>The portal blocks automated browsers, so it drives a real one.</b> A person logs in with TAN, password and OTP; the tool takes over from the dashboard. Pretending this can be fully automated is how you end up with something that silently stops working.
+        </div>
+        <div class="note">
+          <span class="tag">Output</span><b>One file per TAN, named for it.</b> <span class="mono">challans_AAAA00019A.xlsx</span>. Twenty-seven runs produce twenty-seven files instead of overwriting one &mdash; a small decision that stops a long afternoon being wasted.
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="foot">
+    <h4>Reading this honestly</h4>
+    <ul>
+          <li>This is a <strong>reconstruction</strong> of a terminal session. The real tool needs Python, real Chrome and a live login to two government portals.</li>
+          <li>Five challans are shown; the interesting ones are the three with a pending balance.</li>
+          <li>Phase 2, which checks TRACES for the pending balance, is built &mdash; the README claiming otherwise is stale.</li>
+        </ul>
+    <div class="more"><a href="index.html">← All ten demo screens</a></div>
+  </div>
+
+</div>
+</body>
+</html>

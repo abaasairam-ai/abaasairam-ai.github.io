@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Demo — GST portal consolidator · Sairam Reddy</title>
+<meta name="robots" content="noindex" />
+<meta name="description" content="Rebuilt UI demo of GST portal consolidator. All data on this page is invented." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="demo.css" />
+</head>
+<body class="skin-term">
+
+<div class="warn">
+  <div class="in">
+    <b>Demo — not a real screen</b>
+    <p>This page is a <strong>rebuilt copy of the interface</strong>, drawn with the application's own
+       design tokens. It is <strong>not a screenshot</strong> and it is not connected to anything.
+       Every name, identifier, amount and date below was <strong>invented for this page</strong>.
+       No real deductor, GSTIN or amount appears anywhere on it. The console text is the tool&#39;s own wording; the data passing through it is invented.</p>
+    <a class="back" href="../index.html#work">← Back to the site</a>
+  </div>
+</div>
+
+<div class="page">
+
+  <div class="intro">
+    <h1>GST portal consolidator &mdash; a run that survives a logout</h1>
+    <p class="sub">Collects the TDS and TCS credit received on the GST portal across a full financial year, one month at a time, and writes a consolidated workbook. A human handles the login; the tool handles the twelve months of clicking.</p>
+
+    <div class="split">
+      <div class="box real">
+        <h4>What is real here</h4>
+        <ul>
+          <li>Every line of console output &mdash; taken from the source</li>
+          <li>The checkpoint-after-each-month and resume behaviour</li>
+          <li>The one-financial-year-per-run scope limit and its stated reason</li>
+          <li>The workbook columns, including amendments as negative rows</li>
+        </ul>
+      </div>
+      <div class="box fake">
+        <h4>What is invented</h4>
+        <ul>
+          <li>All deductor names, GSTINs and amounts</li>
+          <li>The row counts per month</li>
+          <li>The output filename</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="app nosidebar">
+    <div class="main">
+      <div class="top"><div><div class="crumb">Console</div><h2>2-run-one-fy.bat</h2></div><div class="sp"><span class="btn o">FY 2025-26</span><span class="btn s">Dry run</span><span class="btn p">Resume</span></div></div>
+      <div class="body">
+        <div class="note">
+          <span class="tag">The problem</span><b>The portal shows one month at a time.</b> A financial year is twelve manual downloads. Several years of history is not something anyone was realistically going to do by hand.
+        </div>
+        <div class="sec">A run, including a session expiry</div>
+        <div class="term">
+          <div class="bar"><i></i><i></i><i></i>&nbsp;Command Prompt &mdash; 2-run-one-fy.bat</div>
+          <pre><span class="w">============================================================</span>
+<span class="w">  GST TDS/TCS CONSOLIDATOR   FY 2025-26   (12 months)</span>
+<span class="w">============================================================</span>
+
+<span class="y">STEP 1: MANUAL LOGIN</span>
+Opening: https://services.gst.gov.in/services/login
+Log in with your username, password, CAPTCHA, OTP.
+Once you&#39;re on the dashboard, return here and press ENTER.
+<span class="d">&gt; [ENTER]</span>
+
+<span class="y">STEP 2: FETCHING DATA</span>
+  <span class="g">[ok]</span>  Apr 2025   TDS credit   14 rows   amendments  0    <span class="d">checkpoint saved</span>
+  <span class="g">[ok]</span>  May 2025   TDS credit   11 rows   amendments  2    <span class="d">checkpoint saved</span>
+  <span class="g">[ok]</span>  Jun 2025   TDS credit   17 rows   amendments  0    <span class="d">checkpoint saved</span>
+  <span class="g">[ok]</span>  Jul 2025   TDS credit    9 rows   amendments  1    <span class="d">checkpoint saved</span>
+
+<span class="r">  ============================================================</span>
+<span class="r">  SESSION EXPIRED / ACCESS DENIED</span>
+<span class="r">  ============================================================</span>
+  The portal logged you out. In the browser window:
+    1. Click &#39;here&#39; on the Access Denied page (or go to gst.gov.in/login)
+    2. Log in with username + password + CAPTCHA + OTP
+    3. Wait until you see your dashboard with the Returns Calendar
+  Then come back to this terminal and press ENTER to resume.
+  <span class="g">Your progress so far has been saved &mdash; no work is lost.</span>
+<span class="d">&gt; [ENTER]</span>
+
+  <span class="g">[ok]</span>  Aug 2025   TDS credit   13 rows   amendments  0    <span class="d">checkpoint saved</span>
+  <span class="g">[ok]</span>  Sep 2025   TDS credit   15 rows   amendments  3    <span class="d">checkpoint saved</span>
+  <span class="d">...</span>
+  <span class="g">[ok]</span>  Mar 2026   TDS credit   12 rows   amendments  1    <span class="d">checkpoint saved</span>
+
+<span class="y">STEP 3: WRITING WORKBOOK</span>
+  Consolidated  <span class="b">158 rows</span> across 12 months, 9 amendments.
+  Excel saved to : <span class="b">out\\gst-tds-FY2025-26.xlsx</span>
+  <span class="g">Done.</span></pre>
+        </div>
+        <div class="note">
+          <span class="tag">Resilience</span><b>The session expiry above is the point of this screen.</b> The portal logs you out mid-run. Because every month is checkpointed as it completes, the run resumes from August rather than restarting from April. Losing four months of work to a timeout is what makes people give up on a tool.
+        </div>
+        <div class="note">
+          <span class="tag">Scope</span><b>One financial year per run, deliberately.</b> The docstring says it plainly: safer than ninety months in one session. A deliberate scope cut, written down with its reason, is worth more than an ambitious version that fails at month forty.
+        </div>
+        <div class="sec">What lands in the workbook</div>
+        <div class="tw"><p class="swipe">Scroll the table sideways</p><div class="scroll"><table>
+          <thead><tr><th>Month</th><th>Deductor GSTIN</th><th>Deductor</th><th class="num">Taxable</th><th class="num">TDS</th><th>Type</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">Apr 2025</td><td class="mono">27AAACA0005Z1ZE</td><td>Northwind Textiles Ltd</td><td class="num">4,20,000.00</td><td class="num">8,400.00</td><td>TDS</td></tr>
+            <tr><td class="mono">Apr 2025</td><td class="mono">29AAACA0012Z1ZB</td><td>Fairhaven Logistics Pvt Ltd</td><td class="num">2,85,000.00</td><td class="num">5,700.00</td><td>TDS</td></tr>
+            <tr><td class="mono">May 2025</td><td class="mono">27AAACA0011Z1ZG</td><td>Blackthorn Media Services</td><td class="num">1,96,000.00</td><td class="num">3,920.00</td><td>TDS</td></tr>
+            <tr><td class="mono">May 2025</td><td class="mono">27AAACA0011Z1ZG</td><td>Blackthorn Media Services</td><td class="num">&minus;18,000.00</td><td class="num">&minus;360.00</td><td><span class="band warn">amendment</span></td></tr>
+            <tr><td class="mono">Jun 2025</td><td class="mono">29AAACA0017Z1Z6</td><td>Cindermill Engineering</td><td class="num">2,41,000.00</td><td class="num">4,820.00</td><td>TDS</td></tr>
+          </tbody>
+        </table></div></div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="foot">
+    <h4>Reading this honestly</h4>
+    <ul>
+          <li>This is a <strong>reconstruction</strong> of a terminal session. The real tool needs Playwright and a live portal login with CAPTCHA and OTP entered by hand.</li>
+          <li>The session expiry is scripted here, but it is a real failure mode and handling it is why the checkpointing exists.</li>
+          <li>Tax collected at source is skipped deliberately &mdash; another scope cut with a reason attached.</li>
+        </ul>
+    <div class="more"><a href="index.html">← All ten demo screens</a></div>
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Demo — Vendor invoice extractor · Sairam Reddy</title>
+<meta name="robots" content="noindex" />
+<meta name="description" content="Rebuilt UI demo of Vendor invoice extractor. All data on this page is invented." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="demo.css" />
+</head>
+<body class="skin-ui">
+
+<div class="warn">
+  <div class="in">
+    <b>Demo — not a real screen</b>
+    <p>This page is a <strong>rebuilt copy of the interface</strong>, drawn with the application's own
+       design tokens. It is <strong>not a screenshot</strong> and it is not connected to anything.
+       Every name, identifier, amount and date below was <strong>invented for this page</strong>.
+       No real vendor, invoice or GSTIN appears anywhere on it. The identifiers shown are checksum-valid dummies generated for the demo.</p>
+    <a class="back" href="../index.html#work">← Back to the site</a>
+  </div>
+</div>
+
+<div class="page">
+
+  <div class="intro">
+    <h1>Invoice extractor &mdash; PDF in, checked Excel out</h1>
+    <p class="sub">Reads vendor purchase invoices as PDFs and produces an Excel file ready for import into the accounting system, with the fields that matter pulled out and validated first. Runs fully offline and talks to nothing.</p>
+
+    <div class="split">
+      <div class="box real">
+        <h4>What is real here</h4>
+        <ul>
+          <li>The extracted fields and the Excel column layout</li>
+          <li>Every check code shown &mdash; these are the real ones</li>
+          <li>The GST rate validation and the GSTIN checksum test</li>
+          <li>The nothing-until-Export behaviour</li>
+        </ul>
+      </div>
+      <div class="box fake">
+        <h4>What is invented</h4>
+        <ul>
+          <li>All invoice numbers, dates, amounts and vendor references</li>
+          <li>The GSTINs &mdash; dummies built to pass the app's own validator</li>
+          <li>The counts in the stat strip</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="app">
+    <aside class="side">
+      <div class="logo"><span class="m">V</span>Invoice Extractor</div>
+      <div class="grp">Extract</div>
+      <a href="#" class="on" onclick="return false"><span class="dot"></span>Read PDFs</a>
+      <a href="#" onclick="return false"><span class="dot"></span>Checks</a>
+      <a href="#" onclick="return false"><span class="dot"></span>Export</a>
+      <div class="grp">Reference</div>
+      <a href="#" onclick="return false"><span class="dot"></span>Vendor master</a>
+      <a href="#" onclick="return false"><span class="dot"></span>Rate table</a>
+      <div class="grp">System</div>
+      <a href="#" onclick="return false"><span class="dot"></span>Settings</a>
+      <div class="foot">Demo build<br />No backend attached</div>
+    </aside>
+
+    <div class="main">
+      <div class="top">
+        <div>
+          <div class="crumb">Extract / Read PDFs</div>
+          <h2>Vendor invoice extraction</h2>
+        </div>
+        <div class="sp">
+          <span class="btn o">6 files loaded</span>
+          <span class="btn s">Re-run checks</span>
+          <span class="btn p">Export to Excel</span>
+        </div>
+      </div>
+
+      <div class="body">
+        <div class="stats">
+          <div class="stat "><dt>PDFs read</dt><dd>6</dd></div>
+          <div class="stat good"><dt>Clean rows</dt><dd>3</dd></div>
+          <div class="stat bad"><dt>Failed a check</dt><dd>2</dd></div>
+          <div class="stat warn"><dt>Warnings</dt><dd>1</dd></div>
+          <div class="stat acc"><dt>Written to Excel</dt><dd>0<span class="u">not yet</span></dd></div>
+        </div>
+        <div class="note">
+          <span class="tag">Control</span><b>Nothing is written until Export is pressed.</b> The tool reads, checks and shows. The file appears only when a person decides it should. A tool that writes as it goes is a tool that has already made the mistake by the time you notice.
+        </div>
+        <div class="sec">Extraction preview</div>
+        <div class="xl">
+          <div class="xlbar">vendor-invoices-2026-08-01.xlsx &mdash; ready for import</div>
+          <div class="scroll"><table>
+            <thead><tr><th>Invoice no</th><th>Date</th><th>Supplier GSTIN</th><th>Place of supply</th>
+              <th>RCM</th><th>HSN/SAC</th><th class="num">Qty</th><th class="num">Rate</th>
+              <th class="num">Taxable</th><th class="num">Tax</th><th class="num">Rate %</th><th>Check</th></tr></thead>
+            <tbody>
+              <tr><td>NT/4471</td><td>12 Jul 2026</td><td>27AAACA0005Z1ZE</td><td>27 &mdash; Maharashtra</td><td>No</td><td>998314</td><td class="num">1</td><td class="num">42,500.00</td><td class="num">42,500.00</td><td class="num">7,650.00</td><td class="num">18</td><td><span class="band ok">ok</span></td></tr>
+              <tr><td>NT/4472</td><td>12 Jul 2026</td><td>27AAACA0005Z1ZE</td><td>27 &mdash; Maharashtra</td><td>No</td><td>998313</td><td class="num">3</td><td class="num">6,000.00</td><td class="num">18,000.00</td><td class="num">3,240.00</td><td class="num">18</td><td><span class="band ok">ok</span></td></tr>
+              <tr><td>FL/0912</td><td>18 Jul 2026</td><td>29AAACA0012Z1ZB</td><td>29 &mdash; Karnataka</td><td>Yes</td><td>996511</td><td class="num">1</td><td class="num">31,250.00</td><td class="num">31,250.00</td><td class="num">1,562.50</td><td class="num">5</td><td><span class="band ok">ok</span></td></tr>
+              <tr><td>BM/0233</td><td>21 Jul 2026</td><td>27AAACA0011Z1ZG</td><td>27 &mdash; Maharashtra</td><td>No</td><td>998361</td><td class="num">1</td><td class="num">9,450.00</td><td class="num">9,450.00</td><td class="num">1,323.00</td><td class="num">14</td><td><span class="band err">RATE_NOT_STANDARD</span></td></tr>
+              <tr><td>CE/1180</td><td>24 Jul 2026</td><td>29AAACA0017Z1Z6</td><td>29 &mdash; Karnataka</td><td>No</td><td>&mdash;</td><td class="num">1</td><td class="num">27,620.00</td><td class="num">27,620.00</td><td class="num">4,971.60</td><td class="num">18</td><td><span class="band warn">HSN_SAC_MISSING</span></td></tr>
+              <tr><td>OC/0075</td><td>29 Jul 2026</td><td>27AAACA9999Z1ZZ</td><td>27 &mdash; Maharashtra</td><td>No</td><td>998222</td><td class="num">1</td><td class="num">60,000.00</td><td class="num">60,000.00</td><td class="num">10,800.00</td><td class="num">18</td><td><span class="band err">GSTIN_CHECKSUM_FAIL</span></td></tr>
+            </tbody>
+          </table></div>
+          <div class="tabs"><span class="on">Extracted</span><span>Checks</span><span>Summary</span></div>
+        </div>
+        <div class="note">
+          <span class="tag">Validation</span><b>The rate check is the reason this exists.</b> Tax divided by taxable must land on 0, 5, 12, 18 or 28 per cent. The 14% row above fires <span class="mono">RATE_NOT_STANDARD</span> &mdash; a mis-keyed rate that would otherwise flow into a return unnoticed. A one-rupee rounding difference is tolerated deliberately.
+        </div>
+        <div class="note">
+          <span class="tag">Checksum</span><b>GSTINs are verified, not just pattern-matched.</b> The last character is a check digit over the preceding fourteen. The failing row above is the right shape and still invalid &mdash; exactly the error a regular expression waves through.
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+  <div class="foot">
+    <h4>Reading this honestly</h4>
+    <ul>
+          <li>This is a <strong>reconstruction</strong>. The real tool is a Python application that also ships as a Windows executable needing nothing installed.</li>
+          <li>The six rows were chosen to show a clean read plus the three failure classes worth catching.</li>
+          <li>The check codes are lifted from the source, not invented for the demo.</li>
+        </ul>
+    <div class="more"><a href="index.html">← All ten demo screens</a></div>
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Demo — Subscription and renewal dashboard · Sairam Reddy</title>
+<meta name="robots" content="noindex" />
+<meta name="description" content="Rebuilt UI demo of Subscription and renewal dashboard. All data on this page is invented." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="demo.css" />
+</head>
+<body class="skin-ui subs">
+
+<div class="warn">
+  <div class="in">
+    <b>Demo — not a real screen</b>
+    <p>This page is a <strong>rebuilt copy of the interface</strong>, drawn with the application's own
+       design tokens. It is <strong>not a screenshot</strong> and it is not connected to anything.
+       Every name, identifier, amount and date below was <strong>invented for this page</strong>.
+       No real client, renewal or amount appears anywhere on it.</p>
+    <a class="back" href="../index.html#work">← Back to the site</a>
+  </div>
+</div>
+
+<div class="page">
+
+  <div class="intro">
+    <h1>Subscription dashboard &mdash; renewals and the auto-lock</h1>
+    <p class="sub">Tracks subscriptions and renewal dates so a lapse is noticed before the client notices. Kept in the portfolio deliberately as the earlier, simpler version of what the Billing API became.</p>
+
+    <div class="split">
+      <div class="box real">
+        <h4>What is real here</h4>
+        <ul>
+          <li>The dashboard layout and the renewal-status logic</li>
+          <li>The payment-deadline auto-lock behaviour</li>
+          <li>JSON-file persistence &mdash; and its limits</li>
+          <li>The relationship to the Billing API rebuild</li>
+        </ul>
+      </div>
+      <div class="box fake">
+        <h4>What is invented</h4>
+        <ul>
+          <li>Every client name, category and amount</li>
+          <li>All renewal dates and countdowns</li>
+          <li>The relationship-manager assignments</li>
+          <li>The totals in the stat strip</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="app">
+    <aside class="side">
+      <div class="logo"><span class="m">S</span>Subscriptions</div>
+      <div class="grp">Dashboard</div>
+      <a href="#" class="on" onclick="return false"><span class="dot"></span>Overview</a>
+      <a href="#" onclick="return false"><span class="dot"></span>By owner</a>
+      <a href="#" onclick="return false"><span class="dot"></span>By category</a>
+      <div class="grp">Records</div>
+      <a href="#" onclick="return false"><span class="dot"></span>Subscriptions</a>
+      <a href="#" onclick="return false"><span class="dot"></span>Clients</a>
+      <a href="#" onclick="return false"><span class="dot"></span>Invoices</a>
+      <div class="grp">System</div>
+      <a href="#" onclick="return false"><span class="dot"></span>Settings</a>
+      <div class="foot">Demo build<br />No backend attached</div>
+    </aside>
+
+    <div class="main">
+      <div class="top">
+        <div>
+          <div class="crumb">Dashboard / Overview</div>
+          <h2>Renewals</h2>
+        </div>
+        <div class="sp">
+          <span class="btn o">Next 90 days</span>
+          <span class="btn s">Export</span>
+          <span class="btn a">New subscription</span>
+        </div>
+      </div>
+
+      <div class="body">
+        <div class="stats">
+          <div class="stat "><dt>Tracked subscriptions</dt><dd>148</dd></div>
+          <div class="stat warn"><dt>Renewing in 30 days</dt><dd>22</dd></div>
+          <div class="stat bad"><dt>Past deadline &mdash; locked</dt><dd>6</dd></div>
+          <div class="stat acc"><dt>Annual value</dt><dd>&#8377;92.4 L</dd></div>
+          <div class="stat good"><dt>Renewed this quarter</dt><dd>41</dd></div>
+        </div>
+        <div class="note">
+          <span class="tag">History</span><b>This is the first version, kept on purpose.</b> Persistence here is a JSON file. It worked until it did not &mdash; no concurrent writes, no audit, no roles. The Billing API is what replaced it. Shown together, the pair says more than either does alone.
+        </div>
+        <div class="sec">Renewals due</div>
+        <div class="tw"><p class="swipe">Scroll the table sideways</p><div class="scroll"><table>
+          <thead><tr><th>Client</th><th>Category</th><th>Renewal date</th><th class="num">Value</th><th>Owner</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>Northwind Textiles Ltd</td><td>Software</td><td class="mono">14 Aug 2026</td><td class="num">1,20,000.00</td><td>RM&nbsp;1</td><td><span class="band warn">due in 13 days</span></td></tr>
+            <tr><td>Fairhaven Logistics Pvt Ltd</td><td>Compliance</td><td class="mono">22 Aug 2026</td><td class="num">2,40,000.00</td><td>RM&nbsp;2</td><td><span class="band warn">due in 21 days</span></td></tr>
+            <tr><td>Blackthorn Media Services</td><td>Software</td><td class="mono">03 Jul 2026</td><td class="num">10,000.00</td><td>RM&nbsp;1</td><td><span class="band err">locked &mdash; past deadline</span></td></tr>
+            <tr><td>Cindermill Engineering</td><td>Advisory</td><td class="mono">30 Sep 2026</td><td class="num">4,80,000.00</td><td>RM&nbsp;3</td><td><span class="band ok">renewed</span></td></tr>
+            <tr><td>Otterbourne Consulting LLP</td><td>Compliance</td><td class="mono">11 Sep 2026</td><td class="num">6,00,000.00</td><td>RM&nbsp;2</td><td><span class="band ok">renewed</span></td></tr>
+          </tbody>
+        </table></div></div>
+        <div class="note">
+          <span class="tag">Lock</span><b>Past the payment deadline, the record locks itself.</b> Not a reminder, not a colour change &mdash; the row stops being editable until someone with the right role clears it. The same reasoning as a refusal threshold: a prompt can be ignored, a lock cannot.
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+  <div class="foot">
+    <h4>Reading this honestly</h4>
+    <ul>
+          <li>This is a <strong>reconstruction</strong>. The real application needs accounting-system OAuth credentials, and starts empty because it persists to a file.</li>
+          <li>Architecturally this is the least serious application in the set, and that is the point of including it.</li>
+          <li>Read it next to the Billing API demo. &ldquo;I built this, hit its limits, and rebuilt it properly&rdquo; is a better answer than either app alone.</li>
+        </ul>
+    <div class="more"><a href="index.html">← All ten demo screens</a></div>
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Demo — TDS Receivable reconciliation · Sairam Reddy</title>
+<meta name="robots" content="noindex" />
+<meta name="description" content="Rebuilt UI demo of a TDS receivable reconciliation screen. All data on this page is invented." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="demo.css" />
+</head>
+<body class="skin-ui">
+
+<div class="warn">
+  <div class="in">
+    <b>Demo — not a real screen</b>
+    <p>This page is a <strong>rebuilt copy of the interface</strong>, drawn with the application's own
+       design tokens. It is <strong>not a screenshot</strong> and it is not connected to anything. Every
+       client code, TAN, amount and date below was <strong>invented for this page</strong>. No real client,
+       deductor, vendor or tax identifier appears anywhere on it. The production system runs against
+       live TRACES data and none of that data has been published, shown or exported.</p>
+    <a class="back" href="../index.html#work">← Back to the site</a>
+  </div>
+</div>
+
+<div class="page">
+
+  <div class="intro">
+    <h1>TDS Receivable reconciliation — three-input allocation</h1>
+    <p class="sub">One screen from a four-module reconciliation suite. It takes the books ledger, a
+      contacts export and the Form 26AS download, works out which deductor each entry belongs to,
+      and allocates entries to 26AS rows per TAN. This demo exists so the interface and the logic
+      can be looked at without exposing the data the real system handles.</p>
+
+    <div class="split">
+      <div class="box real">
+        <h4>What is real here</h4>
+        <ul>
+          <li>The layout, navigation and every column of the allocation table</li>
+          <li>The confidence bands and how they are calculated</li>
+          <li>The source-weighting scheme and the override behaviour</li>
+          <li>The allocation algorithm being described</li>
+        </ul>
+      </div>
+      <div class="box fake">
+        <h4>What is invented</h4>
+        <ul>
+          <li>All client codes — ZULU, YANKEE, XRAY are NATO placeholders</li>
+          <li>All TANs — the <span class="mono">AAAA00001A</span> pattern is a dummy format</li>
+          <li>Every amount, date, count and percentage on the page</li>
+          <li>The deductor names, which are not companies that exist</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="app">
+    <aside class="side">
+      <div class="logo"><span class="m">R</span>Recon Suite</div>
+      <div class="grp">Reconciliation</div>
+      <a href="#" onclick="return false"><span class="dot"></span>Vendor TDS</a>
+      <a href="#" class="on" onclick="return false"><span class="dot"></span>TDS Receivable</a>
+      <a href="#" onclick="return false"><span class="dot"></span>GSTR reconciliation</a>
+      <a href="#" onclick="return false"><span class="dot"></span>TDS recon — skill</a>
+      <div class="grp">Records</div>
+      <a href="#" onclick="return false"><span class="dot"></span>Clients</a>
+      <a href="#" onclick="return false"><span class="dot"></span>Deductors</a>
+      <a href="#" onclick="return false"><span class="dot"></span>Follow-ups</a>
+      <div class="grp">System</div>
+      <a href="#" onclick="return false"><span class="dot"></span>Run history</a>
+      <a href="#" onclick="return false"><span class="dot"></span>Integrations</a>
+      <div class="foot">Demo build<br />No backend attached</div>
+    </aside>
+
+    <div class="main">
+      <div class="top">
+        <div>
+          <div class="crumb">Reconciliation / TDS Receivable</div>
+          <h2>TDS receivable reconciliation</h2>
+        </div>
+        <div class="sp">
+          <span class="btn o">Q2 FY 2026-27</span>
+          <span class="btn s">Re-run</span>
+          <span class="btn p">Export to Excel</span>
+        </div>
+      </div>
+
+      <div class="body">
+
+        <div class="stats">
+          <div class="stat"><dt>Books entries</dt><dd>1,284</dd></div>
+          <div class="stat"><dt>26AS rows</dt><dd>1,196</dd></div>
+          <div class="stat good"><dt>Allocated</dt><dd>1,131<span class="u">88.1%</span></dd></div>
+          <div class="stat bad"><dt>Unmatched — books</dt><dd>153</dd></div>
+          <div class="stat bad"><dt>Unmatched — 26AS</dt><dd>65</dd></div>
+          <div class="stat"><dt>Distinct TANs</dt><dd>27</dd></div>
+        </div>
+
+        <div class="note">
+          <span class="tag">Algorithm</span><b>Allocation is solved as an assignment problem.</b>
+          Within each TAN, books entries and 26AS rows are matched by minimising total cost across
+          amount and date difference — not greedily, first-come-first-served. Above 500 rows in a
+          single TAN it falls back to a greedy pass, because the exact solve stops being worth the time.
+        </div>
+
+        <div class="sec">Per-TAN summary</div>
+        <div class="tw"><p class="swipe">Scroll the table sideways</p><div class="scroll"><table>
+          <thead>
+            <tr>
+              <th>TAN</th><th>Deductor</th><th>Client</th>
+              <th class="num">Books</th><th class="num">26AS</th><th class="num">Matched</th>
+              <th class="num">Unmatched L</th><th class="num">Unmatched R</th><th>Resolved by</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="grp">
+              <td class="mono">AAAA00001A</td><td>Northwind Textiles Ltd</td><td>ZULU</td>
+              <td class="num">412</td><td class="num">398</td><td class="num">391</td>
+              <td class="num">21</td><td class="num">7</td>
+              <td><span class="src">Contacts</span><span class="band high">0.75</span></td>
+            </tr>
+            <tr class="grp">
+              <td class="mono">AAAA00007A</td><td>Fairhaven Logistics Pvt Ltd</td><td>YANKEE</td>
+              <td class="num">288</td><td class="num">271</td><td class="num">264</td>
+              <td class="num">24</td><td class="num">7</td>
+              <td><span class="src">DB history</span><span class="band high">0.70</span></td>
+            </tr>
+            <tr class="grp">
+              <td class="mono">AAAA00012A</td><td>Blackthorn Media Services</td><td>ZULU</td>
+              <td class="num">196</td><td class="num">184</td><td class="num">171</td>
+              <td class="num">25</td><td class="num">13</td>
+              <td><span class="src">Override</span><span class="band high">0.99</span></td>
+            </tr>
+            <tr class="grp">
+              <td class="mono">AAAA00019A</td><td>Cindermill Engineering</td><td>XRAY</td>
+              <td class="num">241</td><td class="num">228</td><td class="num">213</td>
+              <td class="num">28</td><td class="num">15</td>
+              <td><span class="src">DB history</span><span class="band medium">0.45</span></td>
+            </tr>
+            <tr class="grp">
+              <td class="mono">AAAA00023A</td><td>Otterbourne Consulting LLP</td><td>XRAY</td>
+              <td class="num">147</td><td class="num">115</td><td class="num">92</td>
+              <td class="num">55</td><td class="num">23</td>
+              <td><span class="src">This 26AS</span><span class="band low">0.35</span></td>
+            </tr>
+          </tbody>
+        </table></div></div>
+
+        <div class="note">
+          <span class="tag">Ranking</span><b>The deductor behind a TAN is resolved from four sources, and they disagree.</b>
+          A contacts upload scores 0.75, recent history in the database 0.70, older history 0.45, and
+          the current 26AS file alone 0.35. If the candidate also appears in the file being processed
+          it gains 0.30, capped at 0.99. A manual override is stored so that it always wins — the last
+          row of defence when the weights get it wrong.
+        </div>
+
+        <div class="sec">Allocations — AAAA00019A · Cindermill Engineering</div>
+        <div class="tw"><p class="swipe">Scroll the table sideways</p><div class="scroll"><table>
+          <thead>
+            <tr>
+              <th>Band</th><th class="num">Confidence</th><th class="num">Delta amount</th>
+              <th class="num">Delta days</th><th>Left key fields — books</th>
+              <th>Right key fields — 26AS</th><th>Feedback</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="band high">high</span></td><td class="num">98.4%</td>
+              <td class="num delta nil">0.00</td><td class="num delta nil">0</td>
+              <td>INV-2291 · 14 Jul 2026 · 42,500.00</td>
+              <td>Q2 · 14 Jul 2026 · 42,500.00</td><td>—</td>
+            </tr>
+            <tr>
+              <td><span class="band high">high</span></td><td class="num">96.1%</td>
+              <td class="num delta nil">0.00</td><td class="num delta pos">2</td>
+              <td>INV-2304 · 21 Jul 2026 · 18,000.00</td>
+              <td>Q2 · 23 Jul 2026 · 18,000.00</td><td>—</td>
+            </tr>
+            <tr>
+              <td><span class="band medium">medium</span></td><td class="num">71.6%</td>
+              <td class="num delta pos">1.00</td><td class="num delta pos">4</td>
+              <td>INV-2318 · 02 Aug 2026 · 9,451.00</td>
+              <td>Q2 · 06 Aug 2026 · 9,450.00</td><td>Accepted</td>
+            </tr>
+            <tr>
+              <td><span class="band medium">medium</span></td><td class="num">64.9%</td>
+              <td class="num delta pos">250.00</td><td class="num delta pos">6</td>
+              <td>INV-2327 · 11 Aug 2026 · 31,250.00</td>
+              <td>Q2 · 17 Aug 2026 · 31,000.00</td><td>—</td>
+            </tr>
+            <tr>
+              <td><span class="band low">low</span></td><td class="num">38.2%</td>
+              <td class="num delta pos">4,120.00</td><td class="num delta pos">19</td>
+              <td>INV-2333 · 19 Aug 2026 · 27,620.00</td>
+              <td>Q2 · 07 Sep 2026 · 23,500.00</td><td>Rejected</td>
+            </tr>
+          </tbody>
+        </table></div></div>
+
+        <div class="note">
+          <span class="tag">Feedback</span><b>Accept and reject are recorded, not just displayed.</b>
+          Every decision on a low-confidence row is written back against the run, so the weighting can
+          be argued with using evidence later rather than adjusted on a hunch.
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="foot">
+    <h4>Reading this honestly</h4>
+    <ul>
+      <li>This is a <strong>reconstruction</strong>. The production interface is a React application
+          that needs a backend, a database and live TRACES credentials to run.</li>
+      <li>The numbers were chosen to show the interesting states — a clean match, a rounding
+          difference, a date gap, a rejected outlier. They are not results from a real run.</li>
+      <li>The tolerances, weights and the fallback threshold are <strong>as implemented</strong>.
+          Those are the parts worth asking about.</li>
+    </ul>
+    <div class="more"><a href="index.html">&larr; All ten demo screens</a></div>
+  </div>
+
+</div>
+</body>
+</html>
